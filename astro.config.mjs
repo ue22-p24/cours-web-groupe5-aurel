@@ -6,16 +6,15 @@ import starlight from "@astrojs/starlight";
 export default defineConfig({
   integrations: [
     starlight({
-      title: "My Docs",
+      title: "UE12-P24 WEB",
       social: {
-        github: "https://github.com/withastro/starlight",
+        github: "https://github.com/ushu/html-css-mines",
       },
       sidebar: [
         {
-          label: "Guides",
+          label: "Cours",
           items: [
-            // Each item here is one entry in the navigation menu.
-            { label: "Example Guide", slug: "guides/example" },
+            { label: "1. Prérequis", slug: "cours/prerequis" },
           ],
         },
         {
@@ -25,6 +24,13 @@ export default defineConfig({
       ],
       favicon: "favicon.ico",
       head: [
+		{
+			tag: "meta",
+			attrs: {
+				name: "author",
+				content: "Aurélien Noce <aurelien.noce@minesparis.psl.eu"
+			},
+		},
         {
           tag: "link",
           attrs: {
