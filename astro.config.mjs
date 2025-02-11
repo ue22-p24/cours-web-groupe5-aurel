@@ -12,25 +12,33 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: "Cours",
+          label: "Sections du cours",
           items: [
-            { label: "1. Prérequis", slug: "cours/prerequis" },
+            { label: "1.a. Prérequis", slug: "cours/prerequis" },
+            {
+              label: "1.b. Les technologies web",
+              slug: "cours/intro-aux-tech-web",
+            },
+            {
+              label: "2.a. Découvrir HTML",
+              slug: "cours/decouvrir-html",
+            },
+            {
+              label: "2.b. Ajouter du style",
+              slug: "cours/ajouter-du-style",
+            }
           ],
-        },
-        {
-          label: "Reference",
-          autogenerate: { directory: "reference" },
-        },
+        }
       ],
       favicon: "favicon.ico",
       head: [
-		{
-			tag: "meta",
-			attrs: {
-				name: "author",
-				content: "Aurélien Noce <aurelien.noce@minesparis.psl.eu"
-			},
-		},
+        {
+          tag: "meta",
+          attrs: {
+            name: "author",
+            content: "Aurélien Noce <aurelien.noce@minesparis.psl.eu",
+          },
+        },
         {
           tag: "link",
           attrs: {
@@ -108,6 +116,14 @@ export default defineConfig({
           attrs: {
             rel: "manifest",
             href: "manifest.json",
+          },
+        },
+        {
+          tag: "link",
+          attrs: {
+            rel: "stylesheet",
+            type: "text/css",
+            href: "https://storage.googleapis.com/app.klipse.tech/css/codemirror.css",
           },
         },
       ],

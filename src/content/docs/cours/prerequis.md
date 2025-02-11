@@ -1,9 +1,7 @@
 ---
-title: Prérequis pour ce cours
+title: Les outils nécessaires
 description: Prérequis pour ce cours – ce qui doit être installé sur vote poste de travail avant de commencer le cours.
 ---
-
-# Prérequis pour le cours HTML, CSS et JavaScript
 
 Pour suivre ce cours efficacement, vous devez installer plusieurs outils sur votre ordinateur.
 Voici une liste des outils "minimaux" à installer sur votre poste de travail.
@@ -21,9 +19,10 @@ Visual Studio Code (VS Code) est l'éditeur de code que nous utiliserons pendant
 
 ### Extensions VS Code recommandées
 
-- Live Server : pour lancer facilement un serveur de développement
+- Live Privew (Microsofr)
 - HTML CSS Support : pour l'autocomplétion
-- JavaScript (ES6) code snippets : pour accélérer l'écriture du code
+- CSS Peak (optionnel)
+- Prettier - Code formatter : pour formater votre code (optionnel)
 
 ## 2. Google Chrome
 
@@ -49,7 +48,7 @@ Installez la version LTS (Long Term Support) :
 
 ### Vérification de l'installation
 
-Pour vérifier que Node.js est correctement installé, ouvrez un terminal et tapez :
+Pour vérifier que Node.js est correctement installé, ouvrez un **terminal** et tapez :
 
 ```bash
 node --version

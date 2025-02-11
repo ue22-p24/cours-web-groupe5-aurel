@@ -1,0 +1,150 @@
+---
+title: "Découvrir HTML"
+description: "Comprendre la structure de base d'un document HTML"
+---
+
+L'HTML (HyperText Markup Language) est le langage de balisage utilisé pour structurer le contenu d'une page web. Dans cette page, nous allons explorer :
+
+- La différence entre la section `<head>` et la section `<body>`.
+- L'idée que le document HTML décrit des **blocs** d'éléments.
+- La structure des tags : balises ouvrantes/fermantes, balises auto-fermantes (comme `<img>`), et l'utilisation des attributs.
+- Quelques tags de base : les titres (`<h1>` à `<h6>`), le paragraphe (`<p>`) et le conteneur générique (`<div>`).
+
+## La structure d'un document HTML
+
+Un document HTML se compose principalement de deux parties :
+
+### `<head>`
+
+La section `<head>` contient des informations **méta** sur le document. Ces informations incluent :
+
+- Les métadonnées (charset, viewport, description, etc.)
+- Le titre de la page (affiché dans l'onglet du navigateur)
+- Les liens vers des ressources externes (feuilles de style CSS, scripts JavaScript, etc.)
+
+Ces éléments ne sont **pas affichés directement** dans le contenu visible de la page.
+
+### `<body>`
+
+La section `<body>` contient **tout le contenu visible** par l'utilisateur : textes, images, boutons, etc. C'est dans cette section que se trouvent les différents blocs d'éléments qui structurent la page.
+
+#### Exemple :
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exemple de Page</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Bienvenue sur ma page</h1>
+    <p>Ceci est un paragraphe qui explique quelque chose d'intéressant.</p>
+  </body>
+</html>
+```
+
+### Les blocs et la structure en HTML
+
+Chaque élément HTML peut être vu comme un bloc ou une unité qui contribue à la structure globale de la page. Ces blocs peuvent être regroupés et imbriqués pour organiser le contenu de manière logique et sémantique.
+
+Par exemple, le tag `<div>` est souvent utilisé comme conteneur pour regrouper plusieurs éléments :
+
+```html
+<div class="section">
+  <h2>Titre de section</h2>
+  <p>Contenu de la section regroupé dans un bloc.</p>
+</div>
+```
+
+## La structure des tags HTML
+
+1. Les balises ouvrantes et fermantes
+
+La plupart des éléments HTML sont délimités par : - Une balise ouvrante : par exemple `<p>` ouvre un paragraphe. - Une balise fermante : par exemple `</p>` ferme le paragraphe.
+
+Entre ces deux balises se trouve le contenu de l’élément.
+
+Exemple :
+
+```html
+<p>Ceci est un paragraphe.</p>
+```
+
+2. Les balises auto-fermantes
+
+Certaines balises n’ont pas de contenu à encapsuler et se ferment d’elles-mêmes.
+En HTML, on parle alors de balises auto-fermantes.
+Par exemple, la balise `<img>` pour afficher une image :
+
+```html
+<img src="chemin/vers/image.jpg" alt="Description de l'image" />
+```
+
+3. Les attributs
+
+Les attributs apportent des informations supplémentaires sur un élément. Ils sont ajoutés dans **la balise ouvrante** et se présentent sous la forme `nom="valeur"`.
+
+Exemple :
+
+```html
+<p class="important">Ceci est un paragraphe important.</p>
+```
+
+## Quelques tags de base
+
+### Les titres (`<h1>` à `<h6>`)
+
+Les balises de titres servent à structurer le contenu par niveaux d’importance :
+
+```html
+<h1>Titre principal</h1>
+<h2>Titre de section</h2>
+<h3>Sous-titre</h3>
+```
+
+Conseil : Utilisez `<h1>` pour le titre principal de la page, puis `<h2>` pour les sections importantes, etc.
+
+### Les paragraphes (`<p>`)
+
+Les balises `<p>` sont utilisées pour créer des paragraphes de texte :
+
+```html
+<p>Ceci est un paragraphe.</p>
+```
+
+### Le conteneur générique (`<div>`)
+
+La balise `<div>` est un conteneur générique qui ne représente rien en soi. Elle est utilisée pour regrouper des éléments et appliquer des styles CSS :
+
+```html
+<div class="container">
+  <h2>Titre de section</h2>
+  <p>Contenu de la section regroupé dans un bloc.</p>
+</div>
+```
+
+### Les images (`<img>`)
+
+La balise `<img>` permet d’afficher une image sur la page :
+
+```html
+<img src="chemin/vers/image.jpg" alt="Description de l'image" />
+```
+
+### Les liens (`<a>`)
+
+La balise `<a>` permet de créer des liens hypertextes :
+
+```html
+<a href="https://www.google.com">Lien vers Google</a>
+```
+
+---
+
+## Exercice
+
+- Créez une page pour vous présenter, idéalement avec une photo de vous.
+- Déployez votre page avec Surge.sh (à voir ensemble)

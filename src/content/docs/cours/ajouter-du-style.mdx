@@ -1,0 +1,141 @@
+---
+title: "Découvrir CSS"
+description: "Les bases du CSS pour styliser vos pages web"
+---
+
+CSS (Cascading Style Sheets) est le langage qui permet de définir la présentation et le style d'un document HTML. Dans cette page, nous allons explorer quelques concepts fondamentaux pour personnaliser l'apparence de vos pages web :
+
+1. **Styler un tag par son nom**
+2. **Styler avec les classes**
+3. **Les principaux attributs de texte**
+4. **Le padding et la margin pour les blocs**
+5. **Les couleurs de bordure**
+6. **Les couleurs de texte et de fond**
+
+---
+
+## 1. Styler un tag par son nom
+
+Vous pouvez appliquer des styles directement à tous les éléments d'un même type en ciblant leur nom de balise.  
+Par exemple, pour définir une taille de police et une couleur pour tous les paragraphes `<p>` :
+
+```css
+p {
+  font-size: 16px;
+  color: #333;
+}
+```
+
+## 2. Styler avec les classes
+
+Les classes vous permettent de cibler des éléments spécifiques sans affecter tous ceux du même type.
+Pour cela, on définit une classe dans le CSS avec un point (.) suivi du nom de la classe :
+
+```css
+.important {
+  font-weight: bold;
+  color: #d9534f;
+}
+```
+
+Ensuite, vous pouvez appliquer cette classe à un élément HTML :
+
+```html
+<p class="important">Ce paragraphe est important.</p>
+```
+
+## 3. Les principaux attributs de texte
+
+CSS offre de nombreux attributs pour styliser le texte :
+
+- `font-family` : définit la police d’écriture.
+- `font-size` : définit la taille du texte.
+- `text-align` : définit l’alignement du texte (par exemple, `left`, `center`, `right`).
+- `line-height` : définit la hauteur de ligne, utile pour l’espacement entre les lignes.
+
+Exemple pour un titre :
+
+```css
+h1 {
+  font-family: "Arial", sans-serif;
+  font-size: 2em;
+  text-align: center;
+  line-height: 1.2;
+}
+```
+
+## 4. Le padding et la margin pour les blocs
+
+Les propriétés de padding et margin permettent de gérer les espaces autour et à l’intérieur des éléments :
+
+- Padding : espace intérieur entre le contenu et la bordure de l’élément.
+- Margin : espace extérieur entre l’élément et les autres éléments.
+
+Exemple:
+
+```css
+.block {
+  padding: 20px;
+  margin: 10px;
+}
+```
+
+## 5. Les couleurs de bordure
+
+Les couleurs de bordure sont définies avec les propriétés suivantes :
+
+- `border-color` : définit la couleur de la bordure.
+- `border-width` : définit la largeur de la bordure.
+- `border-style` : définit le style de la bordure.
+
+Exemple:
+
+```css
+.border {
+  border-color: #333;
+  border-width: 2px;
+  border-style: solid;
+}
+```
+
+Elles peuvent être définies pour chaque côté de l'élément :
+
+```css
+.border {
+  border-top-color: #333;
+  border-top-width: 2px;
+  border-top-style: solid;
+}
+```
+
+ou être regroupées en une seule déclaration :
+
+```css
+.border {
+  border: 2px solid #333;
+}
+```
+
+## 6. Les couleurs de texte et de fond
+
+Les couleurs de texte et de fond sont définies avec les propriétés suivantes :
+
+- `color` : définit la couleur du texte.
+- `background-color` : définit la couleur de fond.
+
+Exemple:
+
+```css
+.highlight {
+  color: #fff; /* Couleur du texte : blanc */
+  background-color: #28a745; /* Couleur de fond : vert */
+  padding: 10px;
+}
+```
+
+---
+
+## Exercice
+
+- Ajoutez des couleurs à votre page de présentation.
+- Déployez-là sur internet avec Surge.sh
