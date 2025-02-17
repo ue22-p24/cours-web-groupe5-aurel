@@ -1,0 +1,274 @@
+---
+title: "Concepts CSS avancés"
+description: "Découvrez le positionnement, les animations et les transformations en CSS"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import Rendu from "../../../components/rendu.astro";
+
+Le CSS offre de nombreuses possibilités pour créer des mises en page dynamiques et interactives. Dans ce TP, nous allons explorer les concepts de positionnement, d'animations et de transformations.
+
+## 1. Le positionnement avec position
+
+La propriété `position` permet de contrôler précisément le placement des éléments dans la page. Les valeurs principales sont :
+
+- `static` : positionnement normal (par défaut)
+- `relative` : positionnement relatif à sa position normale
+- `absolute` : positionnement absolu par rapport à son parent positionné le plus proche
+- `fixed` : positionnement fixe par rapport à la fenêtre du navigateur
+
+### Position relative
+
+La position `relative` permet de décaler un élément par rapport à sa position normale :
+
+```css
+.element-relatif {
+  position: relative;
+  top: 20px;
+  left: 20px;
+}
+```
+
+Exemple d'utilisation sur un élément normal :
+
+<Rendu
+  style={`
+  .demo1 {
+    background: #f0f0f0;
+    padding: 20px;
+  }
+  .element-relatif {
+    position: relative;
+    top: 20px;
+    left: 20px;
+    background: #3498db;
+    color: white;
+    padding: 10px;
+  }
+`}
+>
+  <div class="demo1">
+    <div>Élément normal</div>
+    <div class="element-relatif">Élément relatif</div>
+    <div>Élément normal</div>
+  </div>
+</Rendu>
+
+### Position absolute
+
+La position `absolute` sort l'élément du flux normal et le positionne par rapport à son parent positionné le plus proche :
+
+```css
+.parent {
+  position: relative;
+}
+.element-absolu {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+```
+
+<Rendu
+  style={`
+  .parent {
+    position: relative;
+    background: #f0f0f0;
+    padding: 40px;
+    height: 100px;
+  }
+  .element-absolu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #e74c3c;
+    color: white;
+    padding: 10px;
+  }
+`}
+>
+  <div class="parent">
+    <div>Contenu normal</div>
+    <div class="element-absolu">Élément absolu</div>
+  </div>
+</Rendu>
+
+## 2. Les effets au survol
+
+Le pseudo-sélecteur `:hover` permet d'appliquer des styles lorsque l'utilisateur survole un élément avec sa souris :
+
+```css
+.bouton {
+  background: #3498db;
+  color: white;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+.bouton:hover {
+  background: #2980b9;
+  transform: scale(1.1);
+}
+```
+
+<Rendu
+  style={`
+  .bouton {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .bouton:hover {
+    background: #2980b9;
+    transform: scale(1.1);
+  }
+`}
+>
+  <div class="bouton">Survolez-moi !</div>
+</Rendu>
+
+## 3. Les animations CSS
+
+Les animations CSS permettent de créer des transitions fluides entre différents états :
+
+```css
+@keyframes rebond {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.element-anime {
+  animation: rebond 1s infinite;
+}
+```
+
+<Rendu
+  style={`
+  @keyframes rebond {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+  }
+  .element-anime {
+    display: inline-block;
+    background: #9b59b6;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    animation: rebond 1s infinite;
+  }
+`}
+>
+  <div class="element-anime">Je rebondis !</div>
+</Rendu>
+
+## 4. Les transformations 3D
+
+CSS permet également d'effectuer des transformations en 3D avec la propriété `transform`, voici un exemple un peu plus complexe démontrant l'utilisation de la propriété `perspective` :
+
+<Tabs>
+<TabItem label="index.html" icon='seti:html'>
+```html
+<div class="carte-container">
+    <div class="carte">
+        <div class="carte-face">Recto</div>
+        <div class="carte-dos">Verso</div>
+    </div>
+</div>
+```
+</TabItem>
+<TabItem label="style.css" icon="seti:css">
+```css
+.carte-container {
+    perspective: 1000px;
+}
+.carte {
+    width: 200px;
+    height: 300px;
+    position: relative;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+.carte:hover {
+    transform: rotateY(180deg);
+}
+.carte-face, .carte-dos {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    border-radius: 10px;
+}
+.carte-face {
+    background: #2ecc71;
+    color: white;
+}
+.carte-dos {
+    background: #e74c3c;
+    color: white;
+    transform: rotateY(180deg);
+}
+```
+</TabItem>
+</Tabs>
+
+<Rendu
+  style={`
+  .carte-container {
+    perspective: 1000px;
+  }
+  .carte {
+    width: 200px;
+    height: 300px;
+    position: relative;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+  }
+  .carte:hover {
+    transform: rotateY(180deg);
+  }
+  .carte-face, .carte-dos {
+    margin-top: 0 !important;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    border-radius: 10px;
+  }
+  .carte-face {
+    background: #2ecc71;
+    color: white;
+  }
+  .carte-dos {
+    background: #e74c3c;
+    color: white;
+    transform: rotateY(180deg);
+  }
+`}
+>
+  <div class="carte-container">
+    <div class="carte">
+      <div class="carte-face">Recto</div>
+      <div class="carte-dos">Verso</div>
+    </div>
+  </div>
+</Rendu>

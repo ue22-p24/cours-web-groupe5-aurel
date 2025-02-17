@@ -1,0 +1,33 @@
+---
+type Props = {
+    style?: string;
+}
+
+const { style } = Astro.props;
+---
+
+<article class="rendu">
+    <header>
+        <h3 class="title">Résultat:</h3>
+    </header>
+    <section class="content">
+        <slot />
+    </section>
+</article>
+
+{style && (
+    <style set:html={style} />
+)}
+
+<style is:global>
+    .rendu  .title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: var(--color-primary);
+    }
+    .rendu  .content {
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>

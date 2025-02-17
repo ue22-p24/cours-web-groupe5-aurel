@@ -1,0 +1,446 @@
+---
+title: "Découvrir la Flexbox"
+description: "Apprenez à créer des mises en page flexibles avec CSS Flexbox"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import Rendu from "../../../components/rendu.astro";
+
+La Flexbox (Flexible Box Layout) est un modèle de mise en page CSS qui permet de disposer facilement les éléments d'une page web. Dans ce TP, nous allons explorer les concepts fondamentaux de Flexbox.
+
+## 1. Les concepts de base
+
+La Flexbox repose sur deux concepts principaux :
+
+- Le **conteneur flex** (flex container) : l'élément parent
+- Les **éléments flex** (flex items) : les éléments enfants
+
+Pour créer un conteneur flex, on utilise la propriété `display: flex` :
+
+```html
+<div class="flex-container">
+  <div class="flex-item">Item 1</div>
+  <div class="flex-item">Item 2</div>
+  <div class="flex-item">Item 3</div>
+</div>
+```
+
+avec un style comme celui-ci :
+
+```css
+.flex-container {
+  display: flex;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+.flex-item {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  background-color: #3498db;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+```
+
+<Rendu
+  style={`
+    .demo6 {
+      display: flex;
+      padding: 10px;
+      background-color: #f0f0f0;
+      align-items: center;
+      gap: 10px;
+    }
+    .demo-box {
+      width: 50px;
+      height: 50px;
+      background-color: #3498db;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 !important;
+    }
+  `}
+>
+  <div class="demo6">
+    <div class="demo-box">1</div>
+    <div class="demo-box">2</div>
+    <div class="demo-box">3</div>
+  </div>
+</Rendu>
+
+### La distribution des éléments: `justify-content`
+
+La propriété `justify-content` permet de distribuer l'espace disponible entre les éléments flexibles.
+
+Voici les différentes valeurs possibles :
+
+- `flex-start` : aligne les éléments au début du conteneur
+  {" "}
+  <Rendu style={`.demo6.a { justify-content: flex-start; }`}>
+    <div class="demo6 a">
+      <div class="demo-box">1</div>
+      <div class="demo-box">2</div>
+      <div class="demo-box">3</div>
+    </div>
+  </Rendu>
+- `flex-end` : aligne les éléments à la fin du conteneur
+  {" "}
+  <Rendu style={`.demo6.b { justify-content: flex-end; }`}>
+    <div class="demo6 b">
+      <div class="demo-box">1</div>
+      <div class="demo-box">2</div>
+      <div class="demo-box">3</div>
+    </div>
+  </Rendu>
+- `center` : aligne les éléments au centre du conteneur
+  {" "}
+  <Rendu style={`.demo6.c { justify-content: center; }`}>
+    <div class="demo6 c">
+      <div class="demo-box">1</div>
+      <div class="demo-box">2</div>
+      <div class="demo-box">3</div>
+    </div>
+  </Rendu>
+- `space-between` : distribue l'espace entre les éléments avec un espacement égal entre chaque élément
+  {" "}
+  <Rendu style={`.demo6.d { justify-content: space-between; }`}>
+    <div class="demo6 d">
+      <div class="demo-box">1</div>
+      <div class="demo-box">2</div>
+      <div class="demo-box">3</div>
+    </div>
+  </Rendu>
+- `space-around` : distribue l'espace entre les éléments avec un espacement égal entre chaque élément et les bords du conteneur
+  {" "}
+  <Rendu style={`.demo6.e { justify-content: space-around; }`}>
+    <div class="demo6 e">
+      <div class="demo-box">1</div>
+      <div class="demo-box">2</div>
+      <div class="demo-box">3</div>
+    </div>
+  </Rendu>
+- `space-evenly` : distribue l'espace entre les éléments avec un espacement égal entre chaque élément et les bords du conteneur
+  {" "}
+  <Rendu style={`.demo6.f { justify-content: space-evenly; }`}>
+    <div class="demo6 f">
+      <div class="demo-box">1</div>
+      <div class="demo-box">2</div>
+      <div class="demo-box">3</div>
+    </div>
+  </Rendu>
+
+### La distribution des éléments: `align-items`
+
+La propriété `align-items` permet de distribuer l'espace disponible verticalement entre les éléments flexibles.
+
+Voici les différentes valeurs possibles :
+
+- `flex-start` : aligne les éléments au début du conteneur
+  {" "}
+  <Rendu
+    style={`
+      .demo6.g {
+          height: 120px;
+          align-items: flex-start;
+          justify-content: center;
+      }
+  `}
+  >
+    <div class="demo6 g">
+      <div class="demo-box">1</div>
+      <div class="demo-box">2</div>
+      <div class="demo-box">3</div>
+    </div>
+  </Rendu>
+- `flex-end` : aligne les éléments à la fin du conteneur
+  {" "}
+  <Rendu
+    style={`
+      .demo6.h {
+          height: 120px;
+          align-items: flex-end;
+          justify-content: center;
+      }
+  `}
+  >
+    <div class="demo6 h">
+      <div class="demo-box">1</div>
+      <div class="demo-box">2</div>
+      <div class="demo-box">3</div>
+    </div>
+  </Rendu>
+- `center` : aligne les éléments à la fin du conteneur
+  {" "}
+  <Rendu
+    style={`
+      .demo6.i {
+          height: 120px;
+          align-items: center;
+          justify-content: center;
+      }
+  `}
+  >
+    <div class="demo6 i">
+      <div class="demo-box">1</div>
+      <div class="demo-box">2</div>
+      <div class="demo-box">3</div>
+    </div>
+  </Rendu>
+
+### La direction des éléments: `flex-direction`
+
+La propriété `flex-direction` permet de changer la direction des éléments flexibles.
+
+Voici les différentes valeurs possibles :
+
+- `row` : aligne les éléments horizontalement
+- `column` : aligne les éléments verticalement
+- `row-reverse` : aligne les éléments horizontalement dans l'ordre inverse
+- `column-reverse` : aligne les éléments verticalement dans l'ordre inverse
+
+Voici un exemple de rendu en colonne :
+
+<Rendu
+  style={`
+    .demo6.j {
+        flex-direction: column;
+    }
+`}
+>
+  <div class="demo6 j">
+    <div class="demo-box">1</div>
+    <div class="demo-box">2</div>
+    <div class="demo-box">3</div>
+  </div>
+</Rendu>{" "}
+
+## 2. Un jeu pour vous mettre en jambe
+
+Afin de maîtriser les concepts de Flexbox, nous allons jouer à la [Flexbox Froggy](https://flexboxfroggy.com/).
+
+## 3. Exercice de mise en page
+
+Créez une mise en page de blog simple en utilisant Flexbox. La mise en page doit comporter :
+
+- Un en-tête avec un logo à gauche et un menu de navigation à droite
+- Une section principale avec des articles disposés en grille
+- Une barre latérale à droite
+- Un pied de page
+
+Voici un code de départ pour une page de blog très simple :
+
+<Tabs>
+  <TabItem label="index.html" icon='seti:html'>
+```html
+<div class="blog-container">
+  <header class="blog-header">
+    <div class="logo">MonBlog</div>
+    <nav class="menu">
+      <a href="#">Accueil</a>
+      <a href="#">Articles</a>
+      <a href="#">À propos</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+  
+  <div class="blog-content">
+    <main class="articles">
+      <article class="article-card">
+        <h2>Article 1</h2>
+        <p>Lorem ipsum dolor sit amet...</p>
+      </article>
+      <article class="article-card">
+        <h2>Article 2</h2>
+        <p>Consectetur adipiscing elit...</p>
+      </article>
+      <article class="article-card">
+        <h2>Article 3</h2>
+        <p>Sed do eiusmod tempor...</p>
+      </article>
+    </main>
+    
+    <aside class="sidebar">
+      <h3>Catégories</h3>
+      <ul>
+        <li>Technologie</li>
+        <li>Design</li>
+        <li>Développement</li>
+      </ul>
+    </aside>
+  </div>
+  
+  <footer class="blog-footer">
+    <p>© 2024 MonBlog - Tous droits réservés</p>
+  </footer>
+</div>
+```
+</TabItem>
+<TabItem label="style.css" icon='seti:css'>
+```css
+.blog-container {
+  /* À compléter : Faire un conteneur flex en colonne */
+}
+
+.blog-header {/* À compléter : Faire un conteneur flex avec espace entre logo et menu */}
+
+.menu {/* À compléter : Faire un conteneur flex avec espacement entre les liens */}
+
+.blog-content {/* À compléter : Faire un conteneur flex avec main et sidebar */}
+
+.articles {/* À compléter : Faire une grille flex pour les articles */}
+
+/_ Styles de base fournis _/
+.article-card {
+border: 1px solid #ddd;
+padding: 15px;
+margin: 10px;
+border-radius: 5px;
+}
+
+.sidebar {
+background: #f5f5f5;
+padding: 20px;
+min-width: 200px;
+}
+
+.blog-footer {
+background: #333;
+color: white;
+padding: 20px;
+text-align: center;
+}
+
+```
+</TabItem>
+</Tabs>
+
+💡 Dans ce exemple, vous découvrez de nouveaux éléments de HTML "sémantiques" :
+- `<header>` : pour l'en-tête
+- `<nav>` : pour le menu
+- `<main>` : pour le contenu principal
+- `<aside>` : pour la barre latérale
+- `<footer>` : pour le pied de page
+
+**Visuellement** ces éléments sont affichés de la même façon que les balises `<div>`, mais ils ont une signification sémantique.
+
+
+Voici un exemple de rendu possible :
+
+<Rendu
+  style={`
+    .blog-demo {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .blog-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 60vh;
+    }
+    .blog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: #f0f0f0;
+    }
+    .menu {
+      display: flex;
+      gap: 1rem;
+    }
+    .menu a {
+      color: #333;
+      text-decoration: none;
+    }
+    .blog-content {
+      display: flex;
+      flex: 1;
+      gap: 2rem;
+      padding: 1rem;
+    }
+    .articles {
+      display: flex;
+      flex-wrap: wrap;
+      flex: 1;
+      gap: 1rem;
+    }
+    .article-card {
+      flex: 1 1 300px;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .sidebar {
+      background: #f5f5f5;
+      padding: 20px;
+      min-width: 200px;
+    }
+    .blog-footer {
+      background: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+  `}
+>
+  <div class="blog-demo">
+    <div class="blog-container">
+      <header class="blog-header">
+        <div class="logo">MonBlog</div>
+        <nav class="menu">
+          <a href="#">Accueil</a>
+          <a href="#">Articles</a>
+          <a href="#">À propos</a>
+          <a href="#">Contact</a>
+        </nav>
+      </header>
+
+      <div class="blog-content">
+        <main class="articles">
+          <article class="article-card">
+            <h2>Article 1</h2>
+            <p>Lorem ipsum dolor sit amet...</p>
+          </article>
+          <article class="article-card">
+            <h2>Article 2</h2>
+            <p>Consectetur adipiscing elit...</p>
+          </article>
+          <article class="article-card">
+            <h2>Article 3</h2>
+            <p>Sed do eiusmod tempor...</p>
+          </article>
+        </main>
+
+        <aside class="sidebar">
+          <h3>Catégories</h3>
+          <ul>
+            <li>Technologie</li>
+            <li>Design</li>
+            <li>Développement</li>
+          </ul>
+        </aside>
+      </div>
+
+      <footer class="blog-footer">
+        <p>© 2024 MonBlog - Tous droits réservés</p>
+      </footer>
+    </div>
+  </div>
+</Rendu>
+
+Cet exercice vous permet de mettre en pratique les concepts suivants :
+- Création d'une mise en page flexible avec `display: flex`
+- Utilisation de `flex-direction` pour organiser le contenu
+- Application de `justify-content` et `align-items` pour l'alignement
+- Utilisation de `flex-wrap` pour créer une grille responsive
+- Gestion des espaces avec `gap`
+
+
+
+```

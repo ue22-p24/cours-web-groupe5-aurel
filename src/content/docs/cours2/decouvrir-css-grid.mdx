@@ -1,0 +1,406 @@
+---
+title: "Découvrir CSS Grid"
+description: "Apprenez à créer des mises en page complexes avec CSS Grid"
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import Rendu from "../../../components/rendu.astro";
+
+CSS Grid est un système de mise en page bidimensionnel qui permet de créer des layouts complexes en colonnes et en lignes. Dans ce TP, nous allons explorer les concepts fondamentaux de Grid.
+
+## 1. Les concepts de base
+
+CSS Grid repose sur deux concepts principaux :
+
+- Le **conteneur grid** (grid container) : l'élément parent
+- Les **éléments grid** (grid items) : les éléments enfants
+
+Pour créer un conteneur grid, on utilise la propriété `display: grid`, voyons un exemple simple :
+
+<Tabs>
+  <TabItem label="Un conteneur grid" icon='seti:html'>
+```html
+<div class="grid-container">
+    <div class="grid-item">1</div>
+    <div class="grid-item">2</div>
+    <div class="grid-item">3</div>
+    <div class="grid-item">4</div>
+</div>
+```
+</TabItem>
+<TabItem label="Le style associé" icon='seti:css'>
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+.grid-item {
+    background-color: #3498db;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+```
+</TabItem>
+</Tabs>
+
+<Rendu
+  style={`
+    .demo7 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 10px;
+      background-color: #f0f0f0;
+    }
+    .demo-item {
+      margin-top: 0 !important;
+      background-color: #3498db;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  `}
+>
+  <div class="demo7">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+    <div class="demo-item">4</div>
+  </div>
+</Rendu>
+
+## 2. Définir les colonnes et les lignes
+
+Dans cet exemple, nous avons créé un conteneur grid avec 4 éléments grid.
+
+### Définir les colonnes
+
+Nous avons défini 2 colonnes de même largeur grâce à `grid-template-columns: 1fr 1fr`. <br />
+L'unité `fr` est une unité de fraction, elle permet de diviser l'espace disponible en fractions égales.
+
+On pourrait également définir des colonnes de largeurs différentes, par exemple :
+
+```css
+grid-template-columns: 1fr 200px;
+```
+
+<Rendu style={`.demo7.b { grid-template-columns: 1fr 200px; }`}>
+  <div class="demo7 b">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+    <div class="demo-item">4</div>
+  </div>
+</Rendu>
+
+### Définir les lignes
+
+Il est possible de définir les lignes grâce à la propriété `grid-template-rows`.
+
+Celle-ci fonctionne de la même façon que `grid-template-columns`, mais va nous permettre de spécifier le nombre et la hauteur des lignes:
+
+```css
+grid-template-rows: 50px 150px;
+```
+
+<Rendu style={`.demo7.c { grid-template-rows: 50px 150px; }`}>
+  <div class="demo7 c">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+    <div class="demo-item">4</div>
+  </div>
+</Rendu>{" "}
+
+### Le mot-clé `repeat`
+
+Le mot-clé `repeat` permet de répéter une même valeur un certain nombre de fois.
+
+```css
+/* équivalent à grid-template-columns: 1fr 1fr; */
+grid-template-columns: repeat(2, 1fr);
+```
+
+<Rendu style={`.demo7.d { grid-template-columns: repeat(2, 1fr); }`}>
+  <div class="demo7 d">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+    <div class="demo-item">4</div>
+  </div>
+</Rendu>
+
+## 3. Le positionnement des éléments
+
+Les propriétés [`grid-column-start`](https://developer.mozilla.org/fr/docs/Web/CSS/grid-column-start), [`grid-column-end`](https://developer.mozilla.org/fr/docs/Web/CSS/grid-column-end), [`grid-row-start`](https://developer.mozilla.org/fr/docs/Web/CSS/grid-row-start) et [`grid-row-end`](https://developer.mozilla.org/fr/docs/Web/CSS/grid-row-end) permettent de positionner un élément dans le grid.
+
+Par exemple, pour positionner un élément sur la deuxième colonne et la deuxième ligne, on peut faire :
+
+```css
+.item-span {
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+```
+
+<Rendu
+  style={`
+  .demo7.g {
+    grid-template-rows: 1fr 1fr;
+  }
+  .demo7.g .item-span { 
+    grid-column-start: 2;
+    grid-row-start: 2;
+  }`}
+>
+  <div class="demo7 g">
+    <div class="demo-item item-span">.item-span</div>
+  </div>
+</Rendu>
+
+### Répartition des éléments sur plusieurs colonnes
+
+Il est également possible de positionner un élément sur plusieurs colonnes ou lignes en utilisant les propriétés [`grid-column`](https://developer.mozilla.org/fr/docs/Web/CSS/grid-column) et [`grid-row`](https://developer.mozilla.org/fr/docs/Web/CSS/grid-row).
+
+```css
+.item-span {
+  grid-column-start: span 2;
+}
+```
+
+<Rendu
+  style={`
+  .demo7.h {
+    grid-template-rows: 1fr 1fr;
+  }
+  .demo7.h .item-span { 
+    grid-column-start: span 2;
+  }`}
+>
+  <div class="demo7 h">
+    <div class="demo-item item-span">.item-span</div>
+  </div>
+</Rendu>
+
+## 4. Un jeu pour vous entraîner
+
+Pour maîtriser les concepts de Grid, nous allons jouer à [Grid Garden](https://cssgridgarden.com/#fr).
+
+_Cet exercice est important car il vous permettra de découvrir de nouvelles propriétés de Grid._
+
+## 5. Exercice de mise en page
+
+Créez une mise en page de dashboard simple en utilisant CSS Grid. La mise en page doit comporter :
+
+- Un en-tête qui s'étend sur toute la largeur
+- Une barre latérale à gauche
+- Une zone principale de contenu
+- Des widgets statistiques en haut du contenu
+- Un pied de page qui s'étend sur toute la largeur
+
+Voici le code HTML de départ :
+
+<Tabs>
+    <TabItem label="index.html" icon='seti:html'>
+```html
+<div class="dashboard">
+  <header class="header">
+    <h1>Mon Dashboard</h1>
+  </header>
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <li>Tableau de bord</li>
+        <li>Statistiques</li>
+        <li>Paramètres</li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="content">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Utilisateurs</h3>
+        <p>1,234</p>
+      </div>
+      <div class="stat-card">
+        <h3>Revenus</h3>
+        <p>5,678 €</p>
+      </div>
+      <div class="stat-card">
+        <h3>Commandes</h3>
+        <p>910</p>
+      </div>
+    </div>
+    <div class="main-content">
+      <h2>Contenu Principal</h2>
+      <p>Votre contenu ici...</p>
+    </div>
+  </main>
+  <footer class="footer">
+    <p>© 2024 MonDashboard - Tous droits réservés</p>
+  </footer>
+</div>
+```
+</TabItem>
+<TabItem label="style.css" icon='seti:css'>
+```css
+
+.dashboard {
+/_ À compléter : Créer une grille avec en-tête, sidebar, contenu et footer _/
+display: grid;
+/_ Indice : utilisez grid-template-areas et grid-template-columns _/
+}
+.header {
+/_ À compléter : Faire occuper toute la largeur _/
+grid-area: header;
+}
+.sidebar {
+/_ À compléter : Définir la zone de la sidebar _/
+grid-area: sidebar;
+}
+.content {
+/_ À compléter : Définir la zone du contenu principal _/
+grid-area: content;
+}
+.stats-grid {
+/_ À compléter : Créer une grille pour les cartes de statistiques _/
+display: grid;
+/_ Indice : utilisez grid-template-columns avec repeat() _/
+}
+.footer {
+/_ À compléter : Faire occuper toute la largeur _/
+grid-area: footer;
+}
+/_ Styles de base fournis _/
+.stat-card {
+background: white;
+padding: 1rem;
+border-radius: 8px;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.header, .footer {
+background: #333;
+color: white;
+padding: 1rem;
+}
+.sidebar {
+background: #f5f5f5;
+padding: 1rem;
+}
+
+```
+</TabItem>
+</Tabs>
+
+
+Voici un exemple de rendu possible :
+
+<Rendu
+  style={`
+    .demo4 {
+      display: grid;
+      grid-template-areas:
+        "header header"
+        "sidebar content"
+        "footer footer";
+      grid-template-columns: 200px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 60vh;
+      gap: 1rem;
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .demo4 .header {
+      grid-area: header;
+      background: #333;
+      color: white;
+      padding: 1rem;
+    }
+    .demo4 .sidebar {
+      grid-area: sidebar;
+      background: #f5f5f5;
+      padding: 1rem;
+    }
+    .demo4 .content {
+      grid-area: content;
+    }
+    .demo4 .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .demo4 .stat-card {
+      margin-top: 0 !important;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .demo4 .footer {
+      grid-area: footer;
+      background: #333;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+  `}
+>
+  <div class="demo4">
+    <header class="header">
+      <h1>Mon Dashboard</h1>
+    </header>
+
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li>Tableau de bord</li>
+          <li>Statistiques</li>
+          <li>Paramètres</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Utilisateurs</h3>
+          <p>1,234</p>
+        </div>
+        <div class="stat-card">
+          <h3>Revenus</h3>
+          <p>5,678 €</p>
+        </div>
+        <div class="stat-card">
+          <h3>Commandes</h3>
+          <p>910</p>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <h2>Contenu Principal</h2>
+        <p>Votre contenu ici...</p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>© 2024 MonDashboard - Tous droits réservés</p>
+    </footer>
+  </div>
+</Rendu>
+
+Cet exercice vous permet de mettre en pratique les concepts suivants :
+- Création d'une mise en page avec `display: grid`
+- Utilisation de [`grid-template-areas`](https://developer.mozilla.org/fr/docs/Web/CSS/grid-template-areas) pour définir la structure
+- Application de [`grid-template-columns`](https://developer.mozilla.org/fr/docs/Web/CSS/grid-template-columns) et [`grid-template-rows`](https://developer.mozilla.org/fr/docs/Web/CSS/grid-template-rows)
+- Création d'une grille imbriquée pour les widgets statistiques
+- Gestion des espaces avec [`gap`](https://developer.mozilla.org/fr/docs/Web/CSS/gap)
+```

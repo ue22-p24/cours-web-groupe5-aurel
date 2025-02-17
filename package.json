@@ -24,7 +24,9 @@
   "lint-staged": {
     "*.{js,ts,css,md,mdx,svg}": "prettier --write"
   },
-  "prettier.documentSelectors": ["**/*.astro"],
+  "prettier.documentSelectors": [
+    "**/*.astro"
+  ],
   "[astro]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }

@@ -3,14 +3,9 @@ title: "Découvrir CSS"
 description: "Les bases du CSS pour styliser vos pages web"
 ---
 
-CSS (Cascading Style Sheets) est le langage qui permet de définir la présentation et le style d'un document HTML. Dans cette page, nous allons explorer quelques concepts fondamentaux pour personnaliser l'apparence de vos pages web :
+import Rendu from "../../../components/rendu.astro";
 
-1. **Styler un tag par son nom**
-2. **Styler avec les classes**
-3. **Les principaux attributs de texte**
-4. **Le padding et la margin pour les blocs**
-5. **Les couleurs de bordure**
-6. **Les couleurs de texte et de fond**
+CSS (Cascading Style Sheets) est le langage qui permet de définir la présentation et le style d'un document HTML. Dans cette page, nous allons explorer quelques concepts fondamentaux pour personnaliser l'apparence de vos pages web.
 
 ---
 
@@ -26,6 +21,17 @@ p {
 }
 ```
 
+<Rendu
+  style={`
+  p.demo1 {
+    font-size: 20px;
+    color: red;
+  }
+`}
+>
+  <p class="demo1">Ceci est un paragraphe rouge.</p>
+</Rendu>
+
 ## 2. Styler avec les classes
 
 Les classes vous permettent de cibler des éléments spécifiques sans affecter tous ceux du même type.
@@ -33,8 +39,8 @@ Pour cela, on définit une classe dans le CSS avec un point (.) suivi du nom de 
 
 ```css
 .important {
-  font-weight: bold;
-  color: #d9534f;
+  font-weight: bold; // texte en gras
+  color: #d9534f; // une couleur orange (RRVVBB)
 }
 ```
 
@@ -43,6 +49,17 @@ Ensuite, vous pouvez appliquer cette classe à un élément HTML :
 ```html
 <p class="important">Ce paragraphe est important.</p>
 ```
+
+<Rendu
+  style={`
+  .important {
+    font-weight: bold;
+    color: #d9534f;
+  }
+`}
+>
+  <p class="important">Ce paragraphe est important.</p>
+</Rendu>
 
 ## 3. Les principaux attributs de texte
 
@@ -64,21 +81,45 @@ h1 {
 }
 ```
 
+<Rendu
+  style={`
+  h1.demo2 {
+    font-family: "Arial", sans-serif;
+    font-size: 2em;
+    text-align: center;
+    line-height: 1.2;
+  }
+`}
+>
+  <h1 class="demo2">Titre de niveau 1, centré et avec du style</h1>
+</Rendu>
+
 ## 4. Le padding et la margin pour les blocs
 
 Les propriétés de padding et margin permettent de gérer les espaces autour et à l’intérieur des éléments :
 
-- Padding : espace intérieur entre le contenu et la bordure de l’élément.
-- Margin : espace extérieur entre l’élément et les autres éléments.
+- `padding` : espace intérieur entre le contenu et la bordure de l’élément.
+- `margin` : espace extérieur entre l’élément et les autres éléments.
 
 Exemple:
 
 ```css
 .block {
   padding: 20px;
-  margin: 10px;
 }
 ```
+
+<Rendu
+  style={`
+  .block {
+    padding: 20px;
+  }
+`}
+>
+  <div class="block">
+    <p>Ceci est un bloc avec du padding.</p>
+  </div>
+</Rendu>
 
 ## 5. Les couleurs de bordure
 
@@ -98,6 +139,21 @@ Exemple:
 }
 ```
 
+<Rendu
+  style={`
+  .border-1 {
+    border-color: #333;
+    border-width: 2px;
+    border-style: solid;
+    padding: 10px;
+  }
+`}
+>
+  <div class="border-1">
+    <p>Ceci est un bloc avec une bordure.</p>
+  </div>
+</Rendu>
+
 Elles peuvent être définies pour chaque côté de l'élément :
 
 ```css
@@ -108,6 +164,21 @@ Elles peuvent être définies pour chaque côté de l'élément :
 }
 ```
 
+<Rendu
+  style={`
+  .border-2 {
+    border-top-color: #333;
+    border-top-width: 2px;
+    border-top-style: solid;
+    padding: 10px;
+  }
+`}
+>
+  <div class="border-2">
+    <p>Ceci est un bloc avec une bordure en haut.</p>
+  </div>
+</Rendu>
+
 ou être regroupées en une seule déclaration :
 
 ```css
@@ -115,6 +186,19 @@ ou être regroupées en une seule déclaration :
   border: 2px solid #333;
 }
 ```
+
+<Rendu
+  style={`
+  .border-3 {
+    border: 2px solid #333;
+    padding: 10px;
+  }
+`}
+>
+  <div class="border-3">
+    <p>Ceci est un bloc stylé avec une seule déclaration CSS.</p>
+  </div>
+</Rendu>
 
 ## 6. Les couleurs de texte et de fond
 
@@ -132,6 +216,20 @@ Exemple:
   padding: 10px;
 }
 ```
+
+<Rendu
+  style={`
+  .highlight {
+    color: #fff;
+    background-color: #28a745;
+    padding: 10px;
+  }
+`}
+>
+  <div class="highlight">
+    <p>Ceci est un bloc stylé avec une couleur de texte et de fond.</p>
+  </div>
+</Rendu>
 
 ---
 

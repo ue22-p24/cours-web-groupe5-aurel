@@ -3,6 +3,9 @@ title: "Découvrir HTML"
 description: "Comprendre la structure de base d'un document HTML"
 ---
 
+import Rendu from "../../../components/rendu.astro";
+import testImage from "../../../assets/test-image.png";
+
 L'HTML (HyperText Markup Language) est le langage de balisage utilisé pour structurer le contenu d'une page web. Dans cette page, nous allons explorer :
 
 - La différence entre la section `<head>` et la section `<body>`.
@@ -54,14 +57,21 @@ Par exemple, le tag `<div>` est souvent utilisé comme conteneur pour regrouper 
 
 ```html
 <div class="section">
-  <h2>Titre de section</h2>
-  <p>Contenu de la section regroupé dans un bloc.</p>
+  <h2>titre de section</h2>
+  <p>contenu de la section regroupé dans un bloc.</p>
 </div>
 ```
 
+<Rendu>
+  <div class="section">
+    <h2>titre de section</h2>
+    <p>contenu de la section regroupé dans un bloc.</p>
+  </div>
+</Rendu>
+
 ## La structure des tags HTML
 
-1. Les balises ouvrantes et fermantes
+### Les balises ouvrantes et fermantes
 
 La plupart des éléments HTML sont délimités par : - Une balise ouvrante : par exemple `<p>` ouvre un paragraphe. - Une balise fermante : par exemple `</p>` ferme le paragraphe.
 
@@ -73,17 +83,23 @@ Exemple :
 <p>Ceci est un paragraphe.</p>
 ```
 
-2. Les balises auto-fermantes
+<Rendu>
+  <p>Ceci est un paragraphe.</p>
+</Rendu>
+
+### Les balises auto-fermantes
 
 Certaines balises n’ont pas de contenu à encapsuler et se ferment d’elles-mêmes.
-En HTML, on parle alors de balises auto-fermantes.
-Par exemple, la balise `<img>` pour afficher une image :
+En HTML, on parle alors de balises auto-fermantes. Il est possible de simplement omettre la balise fermante, ou de rajouter un `/` avant la balise fermante.
+
+Par exemple, la balise `<img>` pour afficher une image, peux s'écrire:
 
 ```html
 <img src="chemin/vers/image.jpg" alt="Description de l'image" />
+<img src="chemin/vers/image.jpg" alt="Description de l'image" />
 ```
 
-3. Les attributs
+### Les attributs
 
 Les attributs apportent des informations supplémentaires sur un élément. Ils sont ajoutés dans **la balise ouvrante** et se présentent sous la forme `nom="valeur"`.
 
@@ -103,7 +119,19 @@ Les balises de titres servent à structurer le contenu par niveaux d’importanc
 <h1>Titre principal</h1>
 <h2>Titre de section</h2>
 <h3>Sous-titre</h3>
+<h4>Titre de niveau 4</h4>
+<h5>Titre de niveau 5</h5>
+<h6>Titre de niveau 6</h6>
 ```
+
+<Rendu>
+  <h1>Titre principal</h1>
+  <h2>Titre de section</h2>
+  <h3>Sous-titre</h3>
+  <h4>Titre de niveau 4</h4>
+  <h5>Titre de niveau 5</h5>
+  <h6>Titre de niveau 6</h6>
+</Rendu>
 
 Conseil : Utilisez `<h1>` pour le titre principal de la page, puis `<h2>` pour les sections importantes, etc.
 
@@ -114,6 +142,10 @@ Les balises `<p>` sont utilisées pour créer des paragraphes de texte :
 ```html
 <p>Ceci est un paragraphe.</p>
 ```
+
+<Rendu>
+  <p>Ceci est un paragraphe.</p>
+</Rendu>
 
 ### Le conteneur générique (`<div>`)
 
@@ -126,6 +158,16 @@ La balise `<div>` est un conteneur générique qui ne représente rien en soi. E
 </div>
 ```
 
+<Rendu>
+  <div class="container">
+    <h2>Titre de section</h2>
+    <p>Contenu de la section regroupé dans un bloc.</p>
+  </div>
+</Rendu>
+
+Comme vous le voyez, la balise `<div>` est un conteneur générique qui peut contenir n'importe quel élément HTML.
+Par défaut, les éléments HTML sont affichés les uns après les autres, de haut en bas.
+
 ### Les images (`<img>`)
 
 La balise `<img>` permet d’afficher une image sur la page :
@@ -134,6 +176,33 @@ La balise `<img>` permet d’afficher une image sur la page :
 <img src="chemin/vers/image.jpg" alt="Description de l'image" />
 ```
 
+Il est possible d'ajouter des attributs à la balise `<img>` pour contrôler son affichage :
+
+- `width` : largeur de l'image
+- `height` : hauteur de l'image
+- `alt` : texte alternatif pour l'image (utile pour les utilisateurs qui ne peuvent pas voir l'image)
+
+En général, on préfère utiliser le CSS pour contrôler le style des images, mais il est possible d'utiliser les attributs `width` et `height` pour spécifier la taille de l'image dans des cas simples.
+L'exercice en fin de cours vous propose de mettre en pratique ces notions.
+
+```html
+<img
+  src="/chemin/vers/image.png"
+  width="100"
+  height="100"
+  alt="Description de l'image"
+/>
+```
+
+<Rendu>
+  <img
+    src={testImage.src}
+    width={100}
+    height={100}
+    alt="Description de l'image"
+  />
+</Rendu>
+
 ### Les liens (`<a>`)
 
 La balise `<a>` permet de créer des liens hypertextes :
@@ -141,6 +210,12 @@ La balise `<a>` permet de créer des liens hypertextes :
 ```html
 <a href="https://www.google.com">Lien vers Google</a>
 ```
+
+Par défaut, les liens sont affichés comme du texte bleu et souligné, mais il est possible d'ajouter des styles CSS pour les modifier.
+
+<Rendu>
+  <a href="https://www.google.com">Lien vers Google</a>
+</Rendu>
 
 ---
 

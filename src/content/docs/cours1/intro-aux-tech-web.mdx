@@ -90,7 +90,13 @@ Vous allez créer un projet dans Visual Studio Code, avec un fichier HTML, un fi
 
 L'arborescence de votre projet devrait ressembler à ceci :
 
-<FileTree>- mon_projet/ - index.html - style.css - script.js</FileTree>
+{/* prettier-ignore */}
+<FileTree>
+- mon_projet/ 
+  - index.html 
+  - style.css 
+  - script.js
+</FileTree>
 
 et avec le contenu suivant :
 
@@ -112,6 +118,7 @@ et avec le contenu suivant :
   </div>
 
 {" "}
+
 <script src="script.js"></script>
 
 </body>
@@ -175,3 +182,7 @@ incrementButton.addEventListener('click', () => {
 
   </TabItem>
 </Tabs>
+
+En activant le mode **Live Preview** de Visual Studio Code, vous devriez obtenir une page web qui ressemble à ceci :
+
+![Compteur Simple](../../../assets/compteur-simple.png)

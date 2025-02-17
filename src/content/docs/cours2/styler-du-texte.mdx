@@ -1,0 +1,142 @@
+---
+title: "Styliser un texte poétique"
+description: "Découvrez comment mettre en forme un texte avec style et élégance"
+---
+
+import Rendu from "../../../components/rendu.astro";
+
+Le texte est l'élément fondamental de toute page web. Dans ce TP, nous allons explorer comment styliser un texte poétique en utilisant CSS, en nous concentrant sur la typographie et la mise en page.
+
+## 1. Préparation du texte
+
+Commençons par créer un fichier HTML avec un poème.
+
+Nous utiliserons en premier lieu le poème "Le Dormeur du Val" d'Arthur Rimbaud :
+
+```html
+<div class="section">
+  <p>
+    C'est un trou de verdure où chante une rivière,<br />
+    Accrochant follement aux herbes des haillons<br />
+    D'argent ; où le soleil, de la montagne fière,<br />
+    Luit : c'est un petit val qui mousse de rayons.
+  </p>
+  <p>
+    Un soldat jeune, bouche ouverte, tête nue,<br />
+    Et la nuque baignant dans le frais cresson bleu,<br />
+    Dort ; il est étendu dans l'herbe, sous la nue,<br />
+    Pâle dans son lit vert où la lumière pleut.
+  </p>
+  <p>
+    Les pieds dans les glaïeuls, il dort. Souriant comme<br />
+    Sourirait un enfant malade, il fait un somme :<br />
+    Nature, berce-le chaudement : il a froid.
+  </p>
+  <p>
+    Les parfums ne font pas frissonner sa narine ;<br />
+    Il dort dans le soleil, la main sur sa poitrine,<br />
+    Tranquille. Il a deux trous rouges au côté droit.
+  </p>
+</div>
+```
+
+## 2. Ajouter une police Google Fonts
+
+Nous allons utiliser une police élégante pour notre poème. Ajoutez ce lien dans le `<head>` de votre HTML :
+
+- rendez-vous sur [Google Fonts](https://fonts.google.com/) et choisissez une police.
+- copiez le lien CSS et ajoutez-le dans le `<head>` de votre HTML.
+
+Vous pouvez utiliser l'[élément spécial `:root`](https://developer.mozilla.org/fr/docs/Web/CSS/:root) pour définir les variables CSS qui vont servir à styliser le texte.
+Par exemple, pour définir la police de caractères :
+
+```css
+:root {
+  font-family: "Roboto", sans-serif;
+}
+```
+
+## 3. Styler le titre
+
+Ajouter le titre du poème via un élément de niveau 1 (`<h1>`).
+
+Ajoutez du style pour le titre :
+
+- une police de caractères plus grande
+- une couleur différente du reste
+
+Vous pouvez ajouter d'autres effets, par exemple en utilisant les pseudo-éléments [`::before`](https://developer.mozilla.org/fr-FR/docs/Web/CSS/::before)
+et [`::after`](https://developer.mozilla.org/fr-FR/docs/Web/CSS/::after) vus au cours précédent.
+
+```html
+<h1 class="demo4">Le dormeur du val</h1>
+```
+
+Ci-dessous un exemple de ce que vous pouvez obtenir :
+
+<Rendu
+  style={`
+h1.demo4 {
+  color: #555;
+  text-transform: uppercase;
+}
+.demo4::before {
+  content: "☆ ";
+}
+.demo4::after {
+  content: " ☆";
+}
+`}
+>
+  <h1 class="demo4">Le dormeur du val</h1>
+</Rendu>
+
+## 4. Styler corps du poème
+
+Styler le corps du poème :
+
+- une police de caractères plus petite
+- une couleur de texte différente
+- un espacement entre les paragraphes
+
+Quelques bonus:
+
+- utilisez le pseudo-élément [`::first-letter`](https://developer.mozilla.org/fr-FR/docs/Web/CSS/::first-letter) pour styliser la première lettre de chaque paragraphe
+- utilisez un nouveau pseudo-élément [`::after`](https://developer.mozilla.org/fr-FR/docs/Web/CSS/::after) pour ajouter un point symbole après chaque strophe
+
+Voici un rendu possible :
+
+<Rendu
+  style={`
+  .demo5 {
+    padding: 1em;
+    text-align: center;
+  }
+  .demo5 > p {
+    line-height: 1.2;
+
+}
+.demo5 > p::first-letter {
+font-size: 1.2em;
+color: orange;
+}
+.demo5 > p::after {
+content: "♥︎";
+display: block;
+font-size: 2em;
+margin-top: 1em;
+}
+`}
+
+>
+
+  <div class="demo5">
+    <p> C'est un trou de verdure où chante une rivière, <br /> Accrochant follement aux herbes des haillons <br /> D'argent ; où le soleil, de la montagne fière, <br /> Luit : c'est un petit val qui mousse de rayons.</p>
+    <p> Un soldat jeune, bouche ouverte, tête nue, <br /> Et la nuque baignant dans le frais cresson bleu, <br /> Dort ; il est étendu dans l'herbe, sous la nue, <br /> Pâle dans son lit vert où la lumière pleut.</p>
+    <span>...</span>
+  </div>
+</Rendu>
+
+## 5. Déplacer le site sur internet
+
+Utilisez [Surge](https://surge.sh/) pour déployer votre site sur internet.

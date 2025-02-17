@@ -11,22 +11,47 @@ export default defineConfig({
         github: "https://github.com/ushu/html-css-mines",
       },
       sidebar: [
+        { label: "Prérequis", slug: "prerequis" },
         {
-          label: "Sections du cours",
+          label: "Cours 1",
           items: [
-            { label: "1.a. Prérequis", slug: "cours/prerequis" },
             {
-              label: "1.b. Les technologies web",
-              slug: "cours/intro-aux-tech-web",
+              label: "Les technologies web",
+              slug: "cours1/intro-aux-tech-web",
             },
             {
-              label: "2.a. Découvrir HTML",
-              slug: "cours/decouvrir-html",
+              label: "Découvrir HTML",
+              slug: "cours1/decouvrir-html",
             },
             {
-              label: "2.b. Ajouter du style",
-              slug: "cours/ajouter-du-style",
+              label: "Ajouter du style",
+              slug: "cours1/ajouter-du-style",
             }
+          ],
+        },
+        {
+          label: "Cours 2",
+          items: [
+            {
+              label: "Styler du texte",
+              slug: "cours2/styler-du-texte",
+            },
+            {
+              label: "Styler un tableau",
+              slug: "cours2/styler-un-tableau",
+            },
+            {
+              label: "Découvrir la Flexbox",
+              slug: "cours2/decouvrir-la-flexbox",
+            },
+            {
+              label: "Découvrir CSS Grid",
+              slug: "cours2/decouvrir-css-grid",
+            },
+            {
+              label: "Autres concepts CSS",
+              slug: "cours2/autres-concepts",
+            },
           ],
         }
       ],
@@ -121,9 +146,9 @@ export default defineConfig({
         {
           tag: "link",
           attrs: {
-            rel: "stylesheet",
-            type: "text/css",
-            href: "https://storage.googleapis.com/app.klipse.tech/css/codemirror.css",
+            rel: "preconnect",
+            href: "https://fonts.gstatic.com",
+            crossorigin: "true",
           },
         },
       ],

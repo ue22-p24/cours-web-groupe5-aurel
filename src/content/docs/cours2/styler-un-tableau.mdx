@@ -1,0 +1,342 @@
+---
+title: "Styliser un tableau de données"
+description: "Découvrez comment mettre en forme des tableaux avec style et élégance"
+---
+
+import Rendu from "../../../components/rendu.astro";
+
+Les tableaux sont des éléments essentiels pour présenter des données structurées sur une page web. Dans ce TP, nous allons explorer comment styliser un tableau en utilisant CSS.
+
+## 1. Structure d'un tableau HTML
+
+Commençons par créer un tableau simple présentant des statistiques de vente, son code est le suivant :
+
+```html
+<table class="tableau-ventes">
+  <thead>
+    <tr>
+      <th>Produit</th>
+      <th>Prix unitaire</th>
+      <th>Quantité vendue</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Café</td>
+      <td>2.50 €</td>
+      <td>150</td>
+      <td>375.00 €</td>
+    </tr>
+    <tr>
+      <td>Thé</td>
+      <td>3.00 €</td>
+      <td>100</td>
+      <td>300.00 €</td>
+    </tr>
+    <tr>
+      <td>Chocolat</td>
+      <td>2.80 €</td>
+      <td>120</td>
+      <td>336.00 €</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3">Total des ventes</td>
+      <td>1011.00 €</td>
+    </tr>
+  </tfoot>
+</table>
+```
+
+Si nous ne précisons pas de style, le tableau ressemblera à ceci :
+
+<Rendu>
+  <table class="tableau-ventes">
+    <thead>
+      <tr>
+        <th>Produit</th>
+        <th>Prix unitaire</th>
+        <th>Quantité vendue</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Café</td>
+        <td>2.50 €</td>
+        <td>150</td>
+        <td>375.00 €</td>
+      </tr>
+      <tr>
+        <td>Thé</td>
+        <td>3.00 €</td>
+        <td>100</td>
+        <td>300.00 €</td>
+      </tr>
+      <tr>
+        <td>Chocolat</td>
+        <td>2.80 €</td>
+        <td>120</td>
+        <td>336.00 €</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3">Total des ventes</td>
+        <td>1011.00 €</td>
+      </tr>
+    </tfoot>
+  </table>
+</Rendu>
+
+### Éléments qui composent un tableau HTML
+
+Un tableau HTML est composé de plusieurs éléments :
+
+- `<table>` : l'élément principal qui définit le tableau, il contient tous les autres éléments.
+- `<thead>` : l'en-tête du tableau
+- `<tbody>` : le corps du tableau
+- `<tfoot>` : le pied de tableau
+
+Les différentes lignes du tableau sont définies par les éléments `<tr>`.
+
+<br/>
+Chaque ligne est composée de cellules, définies par l'élément `<td>`.
+
+_Prenez le temps de bien comprendre le code HTML ci-dessus, vous en aurez besoin._
+
+## 2. Styliser le tableau
+
+Votre premier objectif est de styliser le tableau pour qu'il soit plus joli.
+
+Vous pourrez jouer sur les couleurs, les polices, les espacements, etc.
+Par exemple :
+
+- en utilisant `background-color` pour les couleurs de fond
+- en utilisant `color` pour les couleurs de texte
+- en utilisant `font-family` pour les polices de caractères
+- en utilisant `font-size` pour les tailles de police
+- en utilisant `padding` pour les espacements intérieurs
+- en utilisant `margin` pour les espacements extérieurs
+- etc.
+
+Utilisez vos connaissances en CSS pour sélectionner les éléments du tableau et leur appliquer un style.
+
+Voici un rendu possible (illustratif, mais très vilain):
+
+<Rendu
+  style={`
+    .demo-table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+    .demo-table th,
+    .demo-table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid green;
+    }
+    .demo-table thead th {
+      background-color: red;
+      color: white;
+    }
+    .demo-table tbody tr:nth-child(even) {
+      background-color: black;
+    }
+    .demo-table tfoot {
+      font-weight: bold;
+      color: purple;
+      background-color: #f9f9f9;
+    }
+  `}
+>
+  <table class="demo-table">
+    <thead>
+      <tr>
+        <th>Produit</th>
+        <th>Prix unitaire</th>
+        <th>Quantité</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Café</td>
+        <td>2.50 €</td>
+        <td>150</td>
+        <td>375.00 €</td>
+      </tr>
+      <tr>
+        <td>Thé</td>
+        <td>3.00 €</td>
+        <td>100</td>
+        <td>300.00 €</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3">Total des ventes</td>
+        <td>675.00 €</td>
+      </tr>
+    </tfoot>
+  </table>
+</Rendu>
+
+## 3. Créer un tableau avec des listes
+
+Une alternative simplifiée pour afficher des données tabulaires est d'utiliser une liste HTML :
+
+```html
+<ul class="liste-simple">
+  <li class="en-tete">Liste des produits</li>
+  <li>Café - 2.50 €</li>
+  <li>Thé - 3.00 €</li>
+  <li>Chocolat - 2.80 €</li>
+</ul>
+```
+
+Pour rappel, voici la structure de la liste :
+
+- `<ul>` : l'élément principal qui définit la liste, il contient tous les autres éléments.
+- `<li>` : chaque élément de la liste
+
+Et ici nous introduisons une classe "en-tete" (`<li class="en-tete">`) pour styliser l'en-tête de la liste.
+
+Pour "transformer" la liste en tableau, listez [la documentation de la propriété CSS `list-style`](https://developer.mozilla.org/fr-FR/docs/Web/CSS/list-style) pour savoir comment **enlever les puces de la liste**.
+
+Voici un rendu possible :
+
+<Rendu
+  style={`
+    .demo-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+      max-width: 300px;
+    }
+    .demo-list li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .demo-list .en-tete {
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+    }
+    .demo-list li:not(.en-tete):hover {
+      background-color: #f2f2f2;
+    }
+  `}
+>
+  <ul class="demo-list">
+    <li class="en-tete">Liste des produits</li>
+    <li>Café - 2.50 €</li>
+    <li>Thé - 3.00 €</li>
+    <li>Chocolat - 2.80 €</li>
+  </ul>
+</Rendu>
+
+## 4. Avec une liste de description
+
+Les listes de description (`<dl>`) sont parfaites pour afficher des paires attribut-valeur, comme dans une page de profil :
+
+```html
+<dl class="profil-utilisateur">
+  <dt>Nom</dt>
+  <dd>Dupont</dd>
+
+  <dt>Prénom</dt>
+  <dd>Marie</dd>
+
+  <dt>Email</dt>
+  <dd>marie.dupont@email.com</dd>
+
+  <dt>Rôle</dt>
+  <dd>Développeuse Web</dd>
+
+  <dt>Compétences</dt>
+  <dd>HTML, CSS, JavaScript</dd>
+</dl>
+```
+
+Voici un exemple de rendu sans aucun style :
+
+<Rendu>
+  <dl class="profil-utilisateur">
+    <dt>Nom</dt>
+    <dd>Dupont</dd>
+
+    <dt>Prénom</dt>
+    <dd>Marie</dd>
+
+    <dt>Email</dt>
+    <dd>marie.dupont@email.com</dd>
+
+    <dt>Rôle</dt>
+    <dd>Développeuse Web</dd>
+
+    <dt>Compétences</dt>
+    <dd>HTML, CSS, JavaScript</dd>
+  </dl>
+</Rendu>
+
+Cette liste de description est composée de trois éléments :
+
+- `<dl>` (description list) : l'élément principal qui contient la liste
+- `<dt>` (description term) : le terme à décrire (l'attribut)
+- `<dd>` (description details) : la description du terme (la valeur)
+
+Votre travail est de styliser cette liste de description pour qu'elle soit plus jolie.
+
+Vous pourrez jouer sur les couleurs, les polices, les espacements, etc.
+Par exemple :
+
+- en utilisant `background-color` pour les couleurs de fond
+- en utilisant `color` pour les couleurs de texte
+- en utilisant `font-family` pour les polices de caractères
+- en utilisant `font-size` pour les tailles de police
+- en utilisant `padding` pour les espacements intérieurs
+- en utilisant `margin` pour les espacements extérieurs
+
+Voici un rendu possible :
+
+<Rendu
+  style={`
+    .demo-profile {
+      max-width: 500px;
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+    }
+    .demo-profile dt {
+      font-weight: bold;
+      color: #2c3e50;
+      margin-top: 10px;
+    }
+    .demo-profile dd {
+      margin-left: 0;
+      padding: 5px 0;
+      color: #34495e;
+      border-bottom: 1px solid #e9ecef;
+    }
+  `}
+>
+  <dl class="demo-profile">
+    <dt>Nom</dt>
+    <dd>Dupont</dd>
+    <dt>Prénom</dt>
+    <dd>Marie</dd>
+    <dt>Email</dt>
+    <dd>marie.dupont@email.com</dd>
+    <dt>Rôle</dt>
+    <dd>Développeuse Web</dd>
+    <dt>Compétences</dt>
+    <dd>HTML, CSS, JavaScript</dd>
+  </dl>
+</Rendu>
+
+Vous remarquerez que cette structure est particulièrement adaptée pour afficher des informations sous forme de paires clé-valeur, comme dans un profil utilisateur ou une fiche produit.

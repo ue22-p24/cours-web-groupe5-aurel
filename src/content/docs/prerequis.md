@@ -19,10 +19,10 @@ Visual Studio Code (VS Code) est l'éditeur de code que nous utiliserons pendant
 
 ### Extensions VS Code recommandées
 
-- Live Privew (Microsofr)
-- HTML CSS Support : pour l'autocomplétion
-- CSS Peak (optionnel)
-- Prettier - Code formatter : pour formater votre code (optionnel)
+- [Live Preview] pour afficher votre page web directement dans VS Code
+- [HTML CSS Support] pour l'autocomplétion
+- [CSS Peak] (optionnel)
+- [Prettier - Code formatter]: pour formater votre code (optionnel)
 
 ## 2. Google Chrome
 
@@ -57,6 +57,8 @@ npm --version
 
 Ces commandes devraient afficher les numéros de version respectifs.
 
+**Pour suivre ce cours, il est nécessaire d'avoir une version de Node.js supérieure ou égale à la 20.**
+
 ## Configuration recommandée
 
 - Système d'exploitation : Windows 10/11, macOS ou Linux
@@ -65,3 +67,8 @@ Ces commandes devraient afficher les numéros de version respectifs.
 - Une connexion Internet stable pour télécharger les ressources
 
 Une fois ces outils installés, vous serez prêt(e) à commencer le développement web !
+
+[Live Preview]: https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server
+[HTML CSS Support]: https://marketplace.visualstudio.com/items?itemName=ecmel.vscode-html-css
+[CSS Peak]: https://marketplace.visualstudio.com/items?itemName=pranaygp.vscode-css-peek
+[Prettier - Code formatter]: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
