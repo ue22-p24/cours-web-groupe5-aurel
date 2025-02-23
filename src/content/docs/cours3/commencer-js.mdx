@@ -80,6 +80,12 @@ node script.js
 **BONUS**: il est également possible de lancer le script directement depuis VSCode en lançant le débogage avec Node.js.
 pour cela, il suffit de placer un point d'arrêt dans le code et de lancer le débogage avec le bouton "Déboguer" (F5) dans VSCode, avec le fichier ouvert dans l'éditeur.
 
+### Exercices - Premiers pas
+
+1. Créez une page HTML qui affiche "Bonjour le monde !" dans la console.
+2. Modifiez le code pour afficher la date actuelle dans la console en utilisant `console.log(new Date())`.
+3. **Défi**: Utilisez le débogueur pour examiner la valeur de `new Date()` en plaçant un point d'arrêt.
+
 ## 3. Les bases de la syntaxe
 
 ### Les variables
@@ -132,6 +138,15 @@ let nonDefini;
 let vide = null;
 ```
 
+### Exercices - Types et Variables
+
+1. Déclarez trois variables :
+   - Une constante avec votre nom
+   - Une variable avec votre âge
+   - Un tableau avec vos couleurs préférées
+2. Créez un objet qui décrit un animal avec au moins 3 propriétés
+3. **Défi**: Utilisez un template string pour créer une phrase qui utilise toutes vos variables
+
 ## 4. Les fonctions
 
 Voici un exemple simple de fonction qui calcule l'aire d'un rectangle :
@@ -175,6 +190,11 @@ let aire = (longueur, largeur) => {
 };
 ```
 
+### Exercices - Fonctions
+
+1. Écrivez une fonction qui convertit des euros en dollars (1 euro = 1.09 dollars)
+2. Créez une fonction fléchée qui calcule le carré d'un nombre
+
 ## 5. Les structures de contrôle
 
 ### Conditions (if)
@@ -191,12 +211,33 @@ if (age >= 18) {
 
 ### Boucles
 
-La boucle for :
+La boucle for classique :
 
 ```javascript
 for (let i = 0; i < 5; i++) {
   console.log("Tour numéro " + i);
 }
+```
+
+Les boucles modernes pour les tableaux :
+
+```javascript
+const fruits = ["pomme", "banane", "orange"];
+
+// for...of : parcourt les valeurs
+for (const fruit of fruits) {
+  console.log(fruit); // affiche: pomme, banane, orange
+}
+
+// for...in : parcourt les indices
+for (const index in fruits) {
+  console.log(`${index}: ${fruits[index]}`); // affiche: 0: pomme, 1: banane, 2: orange
+}
+
+// forEach : méthode avec fonction callback
+fruits.forEach((fruit, index) => {
+  console.log(`${index}: ${fruit}`);
+});
 ```
 
 La boucle while :
@@ -209,10 +250,177 @@ while (compteur < 3) {
 }
 ```
 
-## Exercices pratiques
+### Exercices - Structures de contrôle
 
-1. Créez une fonction qui convertit des euros en dollars (taux de change : 1€ = 1.09$)
-2. Écrivez un programme qui affiche les nombres pairs de 0 à 10
-3. Créez un objet représentant un livre avec ses propriétés (titre, auteur, année) et affichez-les
+1. Écrivez une boucle qui affiche les nombres de 1 à 10
+2. Créez une condition qui vérifie si un nombre est pair ou impair
+3. **Défi**: Écrivez une boucle qui affiche la table de multiplication d'un nombre
 
-**ATTENTION**: Pour afficher le résultat de vos exercices, il est possible d'utiliser la fonction `console.log()` comme nous l'avons fait dans notre premier exemple.
+## 6. Les Classes en JavaScript
+
+### Introduction aux classes
+
+Les classes ont été introduites avec ES6 (2015) pour faciliter la programmation orientée objet en JavaScript. Elles permettent de créer des "modèles" pour nos objets :
+
+```javascript
+class Personne {
+  constructor(nom, age) {
+    this.nom = nom;
+    this.age = age;
+  }
+
+  sePresenter() {
+    return `Je m'appelle ${this.nom} et j'ai ${this.age} ans`;
+  }
+}
+
+// Création d'une instance
+const alice = new Personne("Alice", 25);
+console.log(alice.sePresenter()); // "Je m'appelle Alice et j'ai 25 ans"
+```
+
+### Propriétés et méthodes
+
+Les classes peuvent avoir :
+
+- Des propriétés d'instance (définies dans le constructor)
+- Des méthodes d'instance
+- Des propriétés et méthodes statiques
+
+```javascript
+class Voiture {
+  // Propriété statique
+  static nombreDeRoues = 4;
+
+  // Propriétés privées (avec #)
+  #kilometrage = 0;
+
+  constructor(marque, modele) {
+    // Propriétés d'instance
+    this.marque = marque;
+    this.modele = modele;
+  }
+
+  // Méthode d'instance
+  rouler(km) {
+    this.#kilometrage += km;
+    console.log(`La voiture roule sur ${km}km`);
+  }
+
+  // Getter
+  get info() {
+    return `${this.marque} ${this.modele} (${this.#kilometrage}km)`;
+  }
+
+  // Méthode statique
+  static description() {
+    return `Une voiture a ${this.nombreDeRoues} roues`;
+  }
+}
+
+const maVoiture = new Voiture("Renault", "Clio");
+maVoiture.rouler(100);
+console.log(maVoiture.info); // "Renault Clio (100km)"
+console.log(Voiture.description()); // "Une voiture a 4 roues"
+```
+
+### Héritage
+
+Les classes peuvent hériter d'autres classes avec le mot-clé `extends` :
+
+```javascript
+class Animal {
+  constructor(nom) {
+    this.nom = nom;
+  }
+
+  faireDuBruit() {
+    return "Un bruit quelconque";
+  }
+}
+
+class Chat extends Animal {
+  constructor(nom, couleur) {
+    // appel du constructeur parent
+    super(nom);
+    this.couleur = couleur;
+  }
+
+  faireDuBruit() {
+    return "Miaou !";
+  }
+
+  ronronner() {
+    return "Prrrrr";
+  }
+}
+
+const minou = new Chat("Minou", "roux");
+console.log(minou.faireDuBruit()); // "Miaou !"
+console.log(minou.ronronner()); // "Prrrrr"
+```
+
+### Points importants à retenir
+
+1. Le `constructor` est appelé automatiquement lors de la création d'une instance
+2. `this` fait référence à l'instance en cours
+3. Les propriétés privées commencent par `#`
+4. Les méthodes/propriétés statiques appartiennent à la classe, pas aux instances
+5. `super()` permet d'appeler le constructeur de la classe parente
+6. Les getters/setters permettent de contrôler l'accès aux propriétés
+
+### Exemple pratique : Gestion d'une bibliothèque
+
+```javascript
+class Livre {
+  #emprunte = false;
+
+  constructor(titre, auteur) {
+    this.titre = titre;
+    this.auteur = auteur;
+  }
+
+  emprunter() {
+    if (this.#emprunte) {
+      return "Déjà emprunté";
+    }
+    this.#emprunte = true;
+    return "Livre emprunté avec succès";
+  }
+
+  rendre() {
+    if (!this.#emprunte) {
+      return "Le livre n'était pas emprunté";
+    }
+    this.#emprunte = false;
+    return "Livre rendu avec succès";
+  }
+
+  get statut() {
+    return this.#emprunte ? "Emprunté" : "Disponible";
+  }
+}
+
+class Bibliotheque {
+  constructor() {
+    this.livres = [];
+  }
+
+  ajouterLivre(livre) {
+    this.livres.push(livre);
+  }
+
+  rechercherParTitre(titre) {
+    return this.livres.find((livre) => livre.titre === titre);
+  }
+}
+
+// Utilisation
+const biblio = new Bibliotheque();
+const livre1 = new Livre("Le Petit Prince", "Saint-Exupéry");
+biblio.ajouterLivre(livre1);
+
+console.log(livre1.statut); // "Disponible"
+console.log(livre1.emprunter()); // "Livre emprunté avec succès"
+console.log(livre1.statut); // "Emprunté"
+```
