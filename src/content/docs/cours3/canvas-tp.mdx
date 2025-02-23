@@ -1,0 +1,527 @@
+---
+title: "Créer un jeu avec Canvas"
+description: "Apprenez à utiliser le Canvas HTML5 en créant un jeu style Flappy Bird"
+---
+
+import Rendu from "../../../components/rendu.astro";
+
+## Introduction au Canvas HTML5
+
+Le Canvas HTML5 est un élément qui permet de dessiner des graphiques, des animations et des jeux directement dans le navigateur. C'est un élément très puissant qui offre de nombreuses possibilités.
+
+### Les bases du Canvas
+
+Voici comment créer un canvas simple :
+
+```html
+<canvas id="monCanvas" width="400" height="300"></canvas>
+
+<script>
+  // Récupération du contexte 2D
+  const canvas = document.getElementById("monCanvas");
+  const ctx = canvas.getContext("2d");
+
+  // Dessin d'un rectangle
+  ctx.fillStyle = "red";
+  ctx.fillRect(10, 10, 50, 50);
+
+  // Dessin d'un cercle
+  ctx.beginPath();
+  ctx.arc(100, 100, 20, 0, Math.PI * 2);
+  ctx.fillStyle = "blue";
+  ctx.fill();
+</script>
+```
+
+<Rendu script={`
+const demoCanvas = document.getElementById('demoCanvas1');
+const demoCtx = demoCanvas.getContext('2d');
+
+demoCtx.fillStyle = 'red';
+demoCtx.fillRect(10, 10, 50, 50);
+
+demoCtx.beginPath();
+demoCtx.arc(100, 100, 20, 0, Math.PI \* 2);
+demoCtx.fillStyle = 'blue';
+demoCtx.fill();
+`}>
+
+  <canvas id="demoCanvas1" width="400" height="300" style="border: 1px solid black;"></canvas>
+</Rendu>
+
+### Méthodes principales du Canvas
+
+Le contexte 2D du canvas offre plusieurs méthodes importantes :
+
+- `fillRect(x, y, width, height)` : dessine un rectangle plein
+- `strokeRect(x, y, width, height)` : dessine le contour d'un rectangle
+- `clearRect(x, y, width, height)` : efface une zone rectangulaire
+- `beginPath()` : commence un nouveau chemin
+- `arc(x, y, radius, startAngle, endAngle)` : dessine un arc ou un cercle
+- `fill()` : remplit la forme actuelle
+- `stroke()` : dessine le contour de la forme actuelle
+
+## Projet : Mini Flappy Bird
+
+Nous allons créer une version simplifiée de Flappy Bird avec :
+
+- Un cercle comme personnage
+- Des obstacles rectangulaires
+- Un système de score
+- Une gestion des collisions
+
+### 1. Structure de base
+
+Commençons par créer la structure HTML et le canvas :
+
+```html
+<div class="game-container">
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <div id="score">Score : 0</div>
+</div>
+
+<style>
+  .game-container {
+    text-align: center;
+    margin: 20px;
+  }
+  #gameCanvas {
+    border: 2px solid black;
+    background: #87ceeb; /* Ciel bleu */
+  }
+  #score {
+    font-size: 24px;
+    margin-top: 10px;
+  }
+</style>
+```
+
+### 2. Configuration initiale du jeu
+
+Créons les variables et les objets nécessaires :
+
+```javascript
+// Configuration du jeu
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const scoreElement = document.getElementById("score");
+
+// Paramètres du jeu
+const GRAVITY = 0.3;
+const JUMP_FORCE = -7;
+const OBSTACLE_SPEED = 3;
+const OBSTACLE_WIDTH = 50;
+const GAP_HEIGHT = 150;
+
+// État du jeu
+let score = 0;
+let gameOver = false;
+
+// Joueur (le cercle)
+const player = {
+  x: 150,
+  y: canvas.height / 2,
+  radius: 20,
+  velocity: 0,
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = "yellow";
+    ctx.fill();
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+  },
+
+  update() {
+    this.velocity += GRAVITY;
+    this.y += this.velocity;
+
+    // Empêcher le joueur de sortir du canvas
+    if (this.y + this.radius > canvas.height) {
+      this.y = canvas.height - this.radius;
+      this.velocity = 0;
+    }
+    if (this.y - this.radius < 0) {
+      this.y = this.radius;
+      this.velocity = 0;
+    }
+  },
+
+  jump() {
+    this.velocity = JUMP_FORCE;
+  },
+};
+
+// Obstacles
+const obstacles = [];
+```
+
+### 3. Gestion des obstacles
+
+Ajoutons la logique pour créer et gérer les obstacles :
+
+```javascript
+class Obstacle {
+  constructor() {
+    this.x = canvas.width;
+    this.width = OBSTACLE_WIDTH;
+    this.gapStart = Math.random() * (canvas.height - GAP_HEIGHT);
+    this.passed = false;
+  }
+
+  draw() {
+    ctx.fillStyle = "green";
+    // Obstacle du haut
+    ctx.fillRect(this.x, 0, this.width, this.gapStart);
+    // Obstacle du bas
+    ctx.fillRect(
+      this.x,
+      this.gapStart + GAP_HEIGHT,
+      this.width,
+      canvas.height - (this.gapStart + GAP_HEIGHT),
+    );
+  }
+
+  update() {
+    this.x -= OBSTACLE_SPEED;
+
+    // Vérifier si l'obstacle est passé
+    if (!this.passed && this.x + this.width < player.x) {
+      score++;
+      scoreElement.textContent = `Score : ${score}`;
+      this.passed = true;
+    }
+  }
+
+  collidesWith(player) {
+    // Vérifier la collision avec l'obstacle du haut
+    if (
+      this.x < player.x + player.radius &&
+      this.x + this.width > player.x - player.radius &&
+      player.y - player.radius < this.gapStart
+    ) {
+      return true;
+    }
+
+    // Vérifier la collision avec l'obstacle du bas
+    if (
+      this.x < player.x + player.radius &&
+      this.x + this.width > player.x - player.radius &&
+      player.y + player.radius > this.gapStart + GAP_HEIGHT
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+}
+```
+
+### 4. Boucle de jeu principale
+
+Implémentons la boucle de jeu qui met à jour et dessine tout :
+
+```javascript
+function gameLoop() {
+  if (gameOver) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+    ctx.font = "48px Arial";
+    ctx.fillText("Game Over!", canvas.width / 2 - 100, canvas.height / 2);
+    return;
+  }
+
+  // Effacer le canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Mettre à jour et dessiner le joueur
+  player.update();
+  player.draw();
+
+  // Gérer les obstacles
+  if (
+    obstacles.length === 0 ||
+    obstacles[obstacles.length - 1].x < canvas.width - 300
+  ) {
+    obstacles.push(new Obstacle());
+  }
+
+  // Mettre à jour et dessiner les obstacles
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    obstacles[i].update();
+    obstacles[i].draw();
+
+    // Vérifier les collisions
+    if (obstacles[i].collidesWith(player)) {
+      gameOver = true;
+    }
+
+    // Supprimer les obstacles hors écran
+    if (obstacles[i].x + OBSTACLE_WIDTH < 0) {
+      obstacles.splice(i, 1);
+    }
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+```
+
+### 5. Contrôles du jeu
+
+Ajoutons les contrôles pour faire sauter le joueur :
+
+```javascript
+// Gestion des contrôles
+function handleInput() {
+  if (gameOver) {
+    // Réinitialiser le jeu
+    gameOver = false;
+    score = 0;
+    scoreElement.textContent = "Score : 0";
+    obstacles.length = 0;
+    player.y = canvas.height / 2;
+    player.velocity = 0;
+    gameLoop();
+  } else {
+    player.jump();
+  }
+}
+
+// Support de la touche espace
+document.addEventListener("keydown", (event) => {
+  if (event.code === "Space") {
+    handleInput();
+  }
+});
+
+// Support du clic de souris
+canvas.addEventListener("click", handleInput);
+
+// Démarrer le jeu
+gameLoop();
+```
+
+<Rendu style={`
+.game-container {
+    text-align: center;
+    margin: 20px;
+}
+#gameCanvas2 {
+    border: 2px solid black;
+    background: #87CEEB;
+}
+#score2 {
+    font-size: 24px;
+    margin-top: 10px;
+}
+`} script={`
+const gameCanvas = document.getElementById('gameCanvas2');
+const gameCtx = gameCanvas.getContext('2d');
+const scoreElement = document.getElementById('score2');
+
+const GRAVITY = 0.3;
+const JUMP_FORCE = -7;
+const OBSTACLE_SPEED = 3;
+const OBSTACLE_WIDTH = 50;
+const GAP_HEIGHT = 150;
+
+let score = 0;
+let gameOver = false;
+
+const player = {
+x: 150,
+y: gameCanvas.height / 2,
+radius: 20,
+velocity: 0,
+
+    draw() {
+        gameCtx.beginPath();
+        gameCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        gameCtx.fillStyle = 'yellow';
+        gameCtx.fill();
+        gameCtx.strokeStyle = 'black';
+        gameCtx.stroke();
+    },
+
+    update() {
+        this.velocity += GRAVITY;
+        this.y += this.velocity;
+
+        if (this.y + this.radius > gameCanvas.height) {
+            this.y = gameCanvas.height - this.radius;
+            this.velocity = 0;
+        }
+        if (this.y - this.radius < 0) {
+            this.y = this.radius;
+            this.velocity = 0;
+        }
+    },
+
+    jump() {
+        this.velocity = JUMP_FORCE;
+    }
+
+};
+
+const obstacles = [];
+
+class Obstacle {
+constructor() {
+this.x = gameCanvas.width;
+this.width = OBSTACLE_WIDTH;
+this.gapStart = Math.random() \* (gameCanvas.height - GAP_HEIGHT);
+this.passed = false;
+}
+
+    draw() {
+        gameCtx.fillStyle = 'green';
+        gameCtx.fillRect(this.x, 0, this.width, this.gapStart);
+        gameCtx.fillRect(
+            this.x,
+            this.gapStart + GAP_HEIGHT,
+            this.width,
+            gameCanvas.height - (this.gapStart + GAP_HEIGHT)
+        );
+    }
+
+    update() {
+        this.x -= OBSTACLE_SPEED;
+
+        if (!this.passed && this.x + this.width < player.x) {
+            score++;
+            scoreElement.textContent = \`Score : \${score}\`;
+            this.passed = true;
+        }
+    }
+
+    collidesWith(player) {
+        if (this.x < player.x + player.radius &&
+            this.x + this.width > player.x - player.radius &&
+            player.y - player.radius < this.gapStart) {
+            return true;
+        }
+
+        if (this.x < player.x + player.radius &&
+            this.x + this.width > player.x - player.radius &&
+            player.y + player.radius > this.gapStart + GAP_HEIGHT) {
+            return true;
+        }
+
+        return false;
+    }
+
+}
+
+function gameLoop() {
+if (gameOver) {
+gameCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+gameCtx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+gameCtx.fillStyle = 'white';
+gameCtx.font = '48px Arial';
+gameCtx.fillText('Game Over!', gameCanvas.width/2 - 100, gameCanvas.height/2);
+return;
+}
+
+    gameCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+    player.update();
+    player.draw();
+
+    if (obstacles.length === 0 ||
+        obstacles[obstacles.length - 1].x < gameCanvas.width - 300) {
+        obstacles.push(new Obstacle());
+    }
+
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        obstacles[i].update();
+        obstacles[i].draw();
+
+        if (obstacles[i].collidesWith(player)) {
+            gameOver = true;
+        }
+
+        if (obstacles[i].x + OBSTACLE_WIDTH < 0) {
+            obstacles.splice(i, 1);
+        }
+    }
+
+    requestAnimationFrame(gameLoop);
+
+}
+
+// Gestion des contrôles
+function handleInput() {
+if (gameOver) {
+gameOver = false;
+score = 0;
+scoreElement.textContent = 'Score : 0';
+obstacles.length = 0;
+player.y = gameCanvas.height / 2;
+player.velocity = 0;
+gameLoop();
+} else {
+player.jump();
+}
+}
+
+// Support de la touche espace
+document.addEventListener('keydown', (event) => {
+if (event.code === 'Space') {
+handleInput();
+}
+});
+
+// Support du clic de souris
+gameCanvas.addEventListener('click', handleInput);
+
+gameLoop();
+`}>
+
+  <div class="game-container">
+    <canvas id="gameCanvas2" width="800" height="400"></canvas>
+    <div id="score2">Score : 0</div>
+  </div>
+</Rendu>
+
+## Exercices d'amélioration
+
+Voici quelques suggestions pour améliorer le jeu :
+
+1. Ajoutez un meilleur système de score :
+
+   - Points bonus pour passer près des obstacles
+   - Multiplicateur de score en fonction de la difficulté
+
+2. Ajoutez des niveaux de difficulté :
+
+   - Augmentez la vitesse des obstacles progressivement
+   - Réduisez la taille du passage entre les obstacles
+   - Ajoutez des obstacles qui bougent verticalement
+
+3. Améliorez les visuels :
+
+   - Ajoutez des effets de particules quand le joueur saute
+   - Créez une animation de rotation pour le joueur
+   - Ajoutez un effet de parallaxe en arrière-plan
+
+4. Ajoutez des sons :
+
+   - Son de saut
+   - Son de collision
+   - Musique de fond
+   - Son quand on marque des points
+
+5. Ajoutez un système de high scores :
+   - Stockez les meilleurs scores dans le localStorage
+   - Affichez un tableau des meilleurs scores
+   - Permettez aux joueurs d'entrer leur nom
+
+## Pour aller plus loin
+
+Pour approfondir vos connaissances sur le Canvas HTML5, voici quelques ressources :
+
+- [MDN Canvas Tutorial](https://developer.mozilla.org/fr/docs/Web/API/Canvas_API/Tutorial)
+- [HTML5 Game Development](https://developer.mozilla.org/fr/docs/Games/Introduction_to_HTML5_Game_Development)
+- [Canvas Performance Tips](https://developer.mozilla.org/fr/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas)

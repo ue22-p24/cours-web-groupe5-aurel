@@ -1,0 +1,423 @@
+---
+title: "Rendre une page web dynamique"
+description: "Apprenez à rendre vos pages web dynamiques avec JavaScript"
+---
+
+import Rendu from "../../../components/rendu.astro";
+
+## 1. Les bases de l'interaction
+
+Nous allons maintenant créer un bouton qui, lorsqu'on clique dessus, affiche une alerte.
+
+Pour cela, nous allons découvrir:
+
+- comment sélectionner un élément HTML
+- comment ajouter un écouteur d'événement
+- la fonction `alert()`, intégrée à JavaScript, qui permet d'afficher une alerte dans le navigateur
+
+### Premier exemple : Le bouton alerte
+
+Commençons par l'exemple le plus simple : déclencher une alerte quand on clique sur un bouton.
+
+```html
+<button onclick="alert('Bonjour !')">Cliquez-moi !</button>
+```
+
+<Rendu>
+  <button onclick="alert('Bonjour !')">Cliquez-moi !</button>
+</Rendu>
+
+C'est la méthode la plus basique, mais elle n'est pas recommandée car elle mélange HTML et JavaScript.
+
+**Exercice :** découvrez les différents événements que vous pouvez utiliser sur la MDN : https://developer.mozilla.org/fr/docs/Web/Events
+
+### Une meilleure approche : La séparation des préoccupations
+
+Séparons le HTML du JavaScript :
+
+```html
+<button id="monBouton">Cliquez-moi (version améliorée) !<</button>
+
+<script>
+  // On sélectionne l'élément
+  const bouton = document.getElementById("monBouton");
+
+  // On ajoute un écouteur d'événement
+  bouton.addEventListener("click", function () {
+    alert("Bonjour !");
+  });
+</script>
+```
+
+<Rendu
+  script={`
+document.getElementById('monBouton').addEventListener('click', function() {
+    alert('Bonjour depuis un event listener !');
+});
+`}
+>
+  <button id="monBouton">Cliquez-moi (version améliorée) !</button>
+</Rendu>
+
+Comme vous le voyez, on peut sélectionner un élément HTML et lui ajouter un écouteur d'événement.
+Lisez la documentation sur MDN:
+
+- pour [`getElementById`](https://developer.mozilla.org/fr/docs/Web/API/Document/getElementById)
+- pour [`addEventListener`](https://developer.mozilla.org/fr/docs/Web/API/EventTarget/addEventListener)
+
+## 2. Faire clignoter un élément
+
+### Version basique : Clignotement automatique
+
+On veut maintenant faire clignoter un élément HTML, comme suit:
+
+<Rendu
+  script={`
+const element = document.getElementById('elementClignotant');
+function toggleVisibility() {
+    if (element.style.visibility === 'hidden') {
+        element.style.visibility = 'visible';
+    } else {
+        element.style.visibility = 'hidden';
+    }
+}
+setInterval(toggleVisibility, 500);
+`}
+>
+  <div id="elementClignotant" style="padding: 20px; background-color: yellow;">
+    Je clignote !
+  </div>
+</Rendu>
+
+```html
+<div id="elementClignotant" style="padding: 20px; background-color: yellow;">
+  Je clignote !
+</div>
+
+Voici un code de départ:
+
+<script>
+  const element = document.getElementById("elementClignotant");
+
+  function toggleVisibility() {
+    // TODO: implémenter la fonction
+  }
+
+  // Faire clignoter toutes les 500ms
+  setInterval(toggleVisibility, 500);
+</script>
+```
+
+La méthode [`setInterval`](https://developer.mozilla.org/fr/docs/Web/API/WindowOrWorkerGlobalScope/setInterval) permet de répéter une fonction à intervalle régulier.
+
+Pour faire clignoter l'élément, on appelle `setInterval` avec la fonction `toggleVisibility` et un intervalle de 500ms. Cette dernière va rendre l'élément visible ou invisible à chaque appel.
+Votre travail est de compléter la fonction `toggleVisibility` pour que l'élément clignote.
+
+Vous pourrez modifier la visibilité de l'élément avec la propriété `style.visibility`: lisez la documentation sur MDN: https://developer.mozilla.org/fr/docs/Web/API/HTMLElement/style
+
+### Version améliorée : Clignotement au survol
+
+<Rendu
+  style={`
+.invisible { visibility: hidden; }
+#elementHover {
+    padding: 20px;
+    background-color: lightblue;
+    cursor: pointer;
+}
+`}
+  script={`
+const elementHover = document.getElementById('elementHover');
+let intervalId = null;
+elementHover.addEventListener('mouseenter', function() {
+    intervalId = setInterval(() => {
+        elementHover.classList.toggle('invisible');
+    }, 500);
+});
+elementHover.addEventListener('mouseleave', function() {
+    clearInterval(intervalId);
+    elementHover.classList.remove('invisible');
+});
+`}
+>
+  <div id="elementHover">Survolez-moi !</div>
+</Rendu>
+
+```html
+<div
+  id="elementHover"
+  style="padding: 20px; background-color: lightblue; cursor: pointer;"
+>
+  Survolez-moi !
+</div>
+
+<script>
+  const elementHover = document.getElementById("elementHover");
+
+  // TODO: implémenter le code
+</script>
+
+<style>
+  .invisible {
+    visibility: hidden;
+  }
+</style>
+```
+
+Votre travail sera de compléter le code pour que l'élément clignote lorsqu'on le survole.
+Vous pourrez utiliser:
+
+- l'évènement [`mouseenter`](https://developer.mozilla.org/fr/docs/Web/API/Element/mouseenter_event) pour détecter le moment où la souris commence à survoler l'élément
+- l'évènement [`mouseleave`](https://developer.mozilla.org/fr/docs/Web/API/Element/mouseleave_event) pour détecter le moment où la souris quitte la zone de l'élément
+
+De plus, utilisez la méthode [`classList`](https://developer.mozilla.org/fr/docs/Web/API/Element/classList) pour ajouter ou retirer la classe `invisible` à l'élément, plutôt que de modifier le style "local" de l'élément.
+
+## 3. Manipulation des classes CSS
+
+### Toggle de classe simple
+
+Voici un autre exemple, dans lequel nous utilisons un bouton pour modifier l'apparence d'un **autre** élément:
+
+<Rendu
+  style={`
+.normal {
+    padding: 20px;
+    background-color: white;
+    transition: all 0.3s ease;
+    border: 1px solid #ccc;
+}
+.special {
+    background-color: pink;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+`}
+  script={`
+document.getElementById('toggleButton').addEventListener('click', function() {
+    document.getElementById('targetElement').classList.toggle('special');
+});
+`}
+>
+  <button id="toggleButton">Changer le style</button>
+  <div id="targetElement" class="normal">
+    Mon style change quand vous cliquez sur le bouton !
+  </div>
+</Rendu>
+
+Voici le code de départ:
+
+```html
+<button id="toggleButton">Changer le style</button>
+<div id="targetElement" class="normal">
+  Mon style change quand vous cliquez sur le bouton !
+</div>
+
+<script>
+  // TODO: implémenter le code
+</script>
+
+<style>
+  .normal {
+    padding: 20px;
+    background-color: white;
+    transition: all 0.3s ease;
+  }
+
+  .special {
+    background-color: pink;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+</style>
+```
+
+Votre travail sera de compléter le code pour que l'élément change de style lorsqu'on clique sur le bouton.
+Vous pourrez utiliser la méthode [`classList.toggle`](https://developer.mozilla.org/fr/docs/Web/API/Element/classList/toggle) pour ajouter ou retirer la classe `special` à l'élément.
+
+## 4. Utilisation des data-attributes
+
+Les data-attributes nous permettent de stocker des données directement dans nos éléments HTML.
+
+<Rendu
+  style={`
+.carte {
+    display: inline-block;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 2em;
+}
+.carte[data-valeur]::before {
+    content: attr(data-valeur);
+}
+.carte[data-couleur="rouge"] {
+    background-color: red;
+}
+.carte[data-couleur="bleu"] {
+    background-color: blue;
+}
+`}
+  script={`
+document.querySelectorAll('.carte').forEach(carte => {
+    carte.addEventListener('click', function() {
+        const couleur = this.dataset.couleur;
+        const valeur = this.dataset.valeur;
+        alert(\`Cette carte est \${couleur} et vaut \${valeur} points !\`);
+    });
+});
+`}
+>
+  <div class="carte" data-couleur="rouge" data-valeur="10"></div>
+  <div class="carte" data-couleur="bleu" data-valeur="5"></div>
+</Rendu>
+
+Voici le code de départ:
+
+```html
+<div class="carte" data-couleur="rouge" data-valeur="10"></div>
+<div class="carte" data-couleur="bleu" data-valeur="5"></div>
+
+<script>
+  const cartes = document.querySelectorAll(".carte");
+
+  cartes.forEach((carte) => {
+    carte.addEventListener("click", function () {
+      // TODO: implémenter le code pour afficher une alerte avec la couleur et la valeur de la carte
+    });
+  });
+</script>
+
+<style>
+  .carte {
+    display: inline-block;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 2em;
+  }
+  .carte[data-valeur]::before {
+    content: attr(data-valeur);
+  }
+  .carte[data-couleur="rouge"] {
+    background-color: red;
+  }
+  .carte[data-couleur="bleu"] {
+    background-color: blue;
+  }
+</style>
+```
+
+Vous remarquerez que nous utilisons la méthode [`querySelectorAll`](https://developer.mozilla.org/fr/docs/Web/API/Document/querySelectorAll) pour sélectionner tous les éléments avec la classe `.carte`.
+Contrairement à [`getElementById`](https://developer.mozilla.org/fr/docs/Web/API/Document/getElementById), cette méthode renvoie une liste d'éléments et non un seul !
+
+Prenez le temps "d'analyser" le code de départ pour comprendre comment il fonctionne, et en particulier le CSS qui vous montre comment afficher la valeur de la carte.
+
+Enfin, pour réaliser l'exercice, vous pourrez utiliser la méthode [`dataset`](https://developer.mozilla.org/fr/docs/Web/API/Element/dataset) pour accéder aux data-attributes de l'élément.
+
+💡 en réalité le résultat de `querySelectorAll` est un objet [`NodeList`](https://developer.mozilla.org/fr/docs/Web/API/NodeList), qui est similaire à un tableau mais ne possède pas les méthodes propres aux tableaux.
+
+## 5. Exemple avancé : Combinaison JS et CSS attr()
+
+Créons un effet de survol qui affiche des informations dynamiques :
+
+<Rendu style={`
+.info-bulle {
+    position: relative;
+    padding: 20px;
+    background: #f0f0f0;
+    cursor: pointer;
+    margin: 20px;
+    z-index: 100;
+}
+
+.info-bulle::after {
+content: attr(data-titre) " - " attr(data-description);
+position: absolute;
+left: var(--mouse-x, 0);
+top: var(--mouse-y, 0);
+transform: translate(-100%, -100%);
+background: black;
+color: white;
+padding: 5px 10px;
+border-radius: 4px;
+font-size: 14px;
+opacity: 0;
+transition: opacity 0.3s;
+pointer-events: none;
+}
+
+.info-bulle:hover::after {
+opacity: 1;
+}
+`} script={`
+document.querySelector('.info-bulle').addEventListener('mousemove', function(e) {
+this.style.setProperty('--mouse-x', e.clientX + 'px');
+this.style.setProperty('--mouse-y', e.clientY + 'px');
+});
+`}>
+
+  <div class="info-bulle" 
+       data-titre="Super titre !"
+       data-description="Une description fascinante">
+    Survolez-moi pour voir la magie opérer
+  </div>
+</Rendu>
+
+```html
+<div
+  class="info-bulle"
+  data-titre="Super titre !"
+  data-description="Une description fascinante"
+>
+  Survolez-moi pour voir la magie opérer
+</div>
+
+<script>
+  const infoBulle = document.querySelector(".info-bulle");
+
+  infoBulle.addEventListener("mousemove", function (e) {
+    // TODO: implémenter le code
+  });
+</script>
+
+<style>
+  .info-bulle {
+    position: relative;
+    padding: 20px;
+    background: #f0f0f0;
+    cursor: pointer;
+    z-index: 100;
+  }
+
+  .info-bulle::after {
+    content: attr(data-titre) " - " attr(data-description);
+    position: absolute;
+    left: var(--mouse-x, 0);
+    top: var(--mouse-y, 0);
+    transform: translate(-100%, -100%);
+    background: black;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .info-bulle:hover::after {
+    opacity: 1;
+  }
+</style>
+```
+
+Pour réaliser l'exercice:
+
+- lisez le code de départ pour comprendre comment il fonctionne, et posez des questions si nécessaire !
+- lisez la documentation sur les variables CSS: https://developer.mozilla.org/fr/docs/Web/CSS/var
+- lisez la documentation de la fonction [`setProperty`](https://developer.mozilla.org/fr/docs/Web/API/CSSStyleDeclaration/setProperty)
+- lisez la documentation de l'évènement [`mousemove`](https://developer.mozilla.org/fr/docs/Web/API/Element/mousemove_event)
+
+Au final, vous deverez récupérer la position du curseur par rapport à l'élément, modisier les variables CSS `--mouse-x` et `--mouse-y` en fonction de cette position.

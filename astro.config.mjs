@@ -53,6 +53,27 @@ export default defineConfig({
               slug: "cours2/autres-concepts",
             },
           ],
+        },
+        {
+          label: "Cours 3",
+          items: [
+            {
+              label: "Débuter avec JavaScript",
+              slug: "cours3/commencer-js",
+            },
+            {
+              label: "Rendre une page web dynamique",
+              slug: "cours3/interagir-dom",
+            },
+            {
+              label: "Interagir avec une API",
+              slug: "cours3/swapi-tp",
+            },
+            {
+              label: "Créer un jeu avec Canvas",
+              slug: "cours3/canvas-tp",
+            },
+          ],
         }
       ],
       favicon: "favicon.ico",

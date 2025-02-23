@@ -1,11 +1,18 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
       "command": "./node_modules/.bin/astro dev",
       "name": "Development server",
       "request": "launch",
       "type": "node-terminal"
+    },
+    {
+      "type": "chrome",
+      "name": "http://127.0.0.1:3000/starter/js/index.html",
+      "request": "launch",
+      "url": "http://127.0.0.1:3000/starter/js/index.html"
     }
   ]
 }

@@ -1,9 +1,10 @@
 ---
 type Props = {
     style?: string;
+    script?: string;
 }
 
-const { style } = Astro.props;
+const { style, script } = Astro.props;
 ---
 
 <article class="rendu">
@@ -31,3 +32,7 @@ const { style } = Astro.props;
         border-radius: 5px;
     }
 </style>
+
+{script && (
+    <script is:inline set:html={script} ></script>
+)}

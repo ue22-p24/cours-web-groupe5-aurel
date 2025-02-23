@@ -1,0 +1,249 @@
+---
+title: "TP : Interaction avec l'API Star Wars"
+description: "Apprenez à interagir avec une API REST en JavaScript en utilisant l'API Star Wars (SWAPI)"
+---
+
+import Rendu from "../../../components/rendu.astro";
+
+## Introduction à l'API SWAPI
+
+SWAPI (Star Wars API) est une API REST gratuite qui fournit des données sur l'univers Star Wars. Dans ce TP, nous allons apprendre à :
+
+- Utiliser la fonction `fetch` pour faire des requêtes HTTP
+- Manipuler les promesses avec `then`
+- Afficher des données dynamiquement sur une page web
+- Interagir avec une API via des entrées utilisateur
+
+## 1. Les bases de fetch
+
+La fonction `fetch` est intégrée aux navigateurs modernes et permet de faire des requêtes HTTP. Voici un exemple simple :
+
+```javascript
+fetch("https://swapi.dev/api/people/1")
+  .then((response) => response.json())
+  .then((data) => console.log(data));
+```
+
+<Rendu
+  script={`
+fetch('https://swapi.dev/api/people/1')
+    .then(response => response.json())
+    .then(data => {
+        const consoleLog = document.getElementById('console-log');
+        consoleLog.innerHTML = JSON.stringify(data, null, 2);
+    });
+`}
+>
+  <pre id="console-log"></pre>
+</Rendu>
+
+Analysons ce code :
+
+1. `fetch('https://swapi.dev/api/people/1')` fait une requête GET à l'URL spécifiée
+2. Le premier `.then` convertit la réponse en JSON
+3. Le second `.then` reçoit les données et les affiche dans la console
+
+Lisez la documentation de la fonction [`fetch`](https://developer.mozilla.org/fr/docs/Web/API/Fetch_API/Using_Fetch) pour comprendre en profondeur comment elle fonctionne, et posez des question !
+
+## 2. Afficher les données sur la page
+
+Maintenant, affichons ces données de manière plus élégante :
+
+```html
+<div id="personnage">Chargement...</div>
+
+<script>
+  const personnageDiv = document.getElementById("personnage");
+
+  fetch("https://swapi.dev/api/people/1")
+    .then((response) => response.json())
+    .then((data) => {
+      // TODO: implémenter le code
+      personnageDiv.innerHTML = `
+            ...
+            `;
+    });
+</script>
+```
+
+Vous pourrez utiliser la méthode [`innerHTML`](https://developer.mozilla.org/fr/docs/Web/API/Element/innerHTML) pour modifier le contenu de l'élément `personnageDiv`, à vous de jouer !.
+
+Par exemple, vous pourrez afficher le nom du personnage, sa taille, son poids et sa couleur des yeux:
+
+<Rendu
+  script={`
+const personnageDiv = document.getElementById('personnage');
+fetch('https://swapi.dev/api/people/1')
+    .then(response => response.json())
+    .then(data => {
+        personnageDiv.innerHTML = \`
+            <h2>\${data.name}</h2>
+            <ul>
+                <li>Taille : \${data.height} cm</li>
+                <li>Poids : \${data.mass} kg</li>
+                <li>Couleur des yeux : \${data.eye_color}</li>
+            </ul>
+        \`;
+    });
+`}
+>
+  <div id="personnage">Chargement...</div>
+</Rendu>
+
+## 3. Version interactive
+
+Créons maintenant une version où l'utilisateur peut choisir quel personnage afficher :
+
+```html
+<div class="swapi-interface">
+  <input type="number" id="characterId" value="1" min="1" />
+  <button id="loadButton">Charger le personnage</button>
+  <div id="characterInfo">
+    Entrez un ID et cliquez sur le bouton pour charger un personnage
+  </div>
+</div>
+
+<script>
+  const characterIdInput = document.getElementById("characterId");
+  const loadButton = document.getElementById("loadButton");
+  const characterInfo = document.getElementById("characterInfo");
+
+  function loadCharacter() {
+    // TODO: implémenter la fonction
+    // 1. Récupérer l'ID depuis l'input
+    // 2. Faire la requête fetch avec cet ID
+    // 3. Afficher les informations dans characterInfo
+    // 4. Gérer les erreurs si le personnage n'existe pas
+  }
+
+  loadButton.addEventListener("click", loadCharacter);
+</script>
+
+<style>
+  .swapi-interface {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .swapi-interface input {
+    padding: 5px;
+    margin-right: 10px;
+  }
+
+  .swapi-interface button {
+    padding: 5px 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  #characterInfo {
+    margin-top: 20px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+  }
+</style>
+```
+
+<Rendu style={`
+.swapi-interface {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.swapi-interface input {
+padding: 5px;
+margin-right: 10px;
+}
+
+.swapi-interface button {
+padding: 5px 10px;
+background: #007bff;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+#characterInfo {
+margin-top: 20px;
+padding: 10px;
+background: #f8f9fa;
+border-radius: 4px;
+}
+`} script={`
+const characterIdInput = document.getElementById('characterId');
+const loadButton = document.getElementById('loadButton');
+const characterInfo = document.getElementById('characterInfo');
+
+function loadCharacter() {
+const id = characterIdInput.value;
+characterInfo.innerHTML = 'Chargement...';
+
+    fetch(\`https://swapi.dev/api/people/\${id}\`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Personnage non trouvé');
+            }
+            return response.json();
+        })
+        .then(data => {
+            characterInfo.innerHTML = \`
+                <h2>\${data.name}</h2>
+                <ul>
+                    <li>Taille : \${data.height} cm</li>
+                    <li>Poids : \${data.mass} kg</li>
+                    <li>Couleur des yeux : \${data.eye_color}</li>
+                    <li>Année de naissance : \${data.birth_year}</li>
+                </ul>
+            \`;
+        })
+        .catch(error => {
+            characterInfo.innerHTML = \`<p style="color: red">\${error.message}</p>\`;
+        });
+
+}
+
+loadButton.addEventListener('click', loadCharacter);
+`}>
+
+  <div class="swapi-interface">
+    <input type="number" id="characterId" value="1" min="1" />
+    <button id="loadButton">Charger le personnage</button>
+    <div id="characterInfo">
+      Entrez un ID et cliquez sur le bouton pour charger un personnage
+    </div>
+  </div>
+</Rendu>
+
+Pour compléter l'exercice, vous devrez :
+
+1. Implémenter la fonction `loadCharacter`
+2. Utiliser `fetch` avec l'ID du personnage
+3. Afficher les informations dans l'élément `characterInfo`
+4. Gérer les erreurs si le personnage n'existe pas
+
+💡 Astuce : Utilisez la méthode `catch` pour gérer les erreurs :
+
+```javascript
+fetch(url)
+    .then(...)
+    .catch(error => {
+        console.error('Erreur :', error);
+    });
+```
+
+## Pour aller plus loin
+
+Voici quelques idées d'améliorations :
+
+1. Ajouter un indicateur de chargement
+2. Ajouter des boutons "Précédent" et "Suivant"
+3. Afficher les vaisseaux du personnage (disponibles dans `data.starships`)
+4. Ajouter une traduction des termes en français
+5. Améliorer le style avec CSS
