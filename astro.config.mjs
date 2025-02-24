@@ -6,7 +6,7 @@ import starlight from "@astrojs/starlight";
 export default defineConfig({
   integrations: [
     starlight({
-      title: "UE12-P24 WEB",
+      title: "UE22-P24 WEB",
       social: {
         github: "https://github.com/ushu/html-css-mines",
       },
